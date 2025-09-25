@@ -1,11 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eshaan Niyas - Academic Scholar & Young Innovator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
-    <style>
+
+import React, { useEffect } from 'react';
+import { Mail } from 'lucide-react';
+
+export default function Home() {
+  useEffect(() => {
+    // Smooth scrolling function
+    window.scrollToSection = function(sectionId) {
+      document.getElementById(sectionId)?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    };
+
+    // Navbar background change on scroll
+    const handleScroll = () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar?.classList.add('scrolled');
+      } else {
+        navbar?.classList.remove('scrolled');
+      }
+
+      // Hide scroll arrow after first scroll
+      const scrollArrow = document.querySelector('.scroll-arrow');
+      if (scrollArrow) {
+        if (window.scrollY > 100) {
+          scrollArrow.style.opacity = '0';
+        } else {
+          scrollArrow.style.opacity = '0.7';
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div>
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800&display=swap');
 
         * {
@@ -225,10 +258,6 @@
           background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
 
-        .portfolio-section {
-          background: linear-gradient(135deg, #f0fdfa 0%, #e6fffa 100%);
-        }
-
         .container {
           max-width: 900px;
           margin: 0 auto;
@@ -305,29 +334,6 @@
           background: linear-gradient(135deg, #5a67d8, #6b46c1);
         }
 
-        .portfolio-button {
-          font-family: 'Inter', sans-serif;
-          color: #ffffff;
-          background: linear-gradient(135deg, #667eea, #764ba2);
-          font-size: 1rem;
-          font-weight: 600;
-          border: none;
-          padding: 16px 32px;
-          border-radius: 50px;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          text-decoration: none;
-          display: inline-block;
-          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-          letter-spacing: 0.02em;
-        }
-
-        .portfolio-button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 16px 48px rgba(102, 126, 234, 0.4);
-          background: linear-gradient(135deg, #5a67d8, #6b46c1);
-        }
-
         .footer {
           background: linear-gradient(135deg, #2d3748, #1a202c);
           color: #e2e8f0;
@@ -355,7 +361,7 @@
           }
 
           .nav-links {
-            display: none !important;
+            display: none;
           }
 
           .hero-name {
@@ -411,122 +417,68 @@
         html {
           scroll-behavior: smooth;
         }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="nav" id="navbar">
-        <div class="nav-content">
-            <a href="#home" class="nav-logo">eshaanniyas</a>
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#portfolio">Portfolio</a>
-                <a href="#contact">Contact</a>
-            </div>
+      `}</style>
+
+      {/* Navigation */}
+      <nav className="nav" id="navbar">
+        <div className="nav-content">
+          <a href="#home" className="nav-logo">eshaanniyas</a>
+          <div className="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </div>
         </div>
-    </nav>
+      </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section" id="home">
-        <div class="hero-content">
-            <h1 class="hero-name">Eshaan Niyas</h1>
-            <p class="hero-subtitle">Academic Scholar & Young Innovator</p>
-            <a href="mailto:niyaseshaan@gmail.com" class="cta-button">Let's Connect</a>
+      {/* Hero Section */}
+      <section className="hero-section" id="home">
+        <div className="hero-content">
+          <h1 className="hero-name">Eshaan Niyas</h1>
+          <p className="hero-subtitle">Academic Scholar & Young Innovator</p>
+          <a href="mailto:niyaseshaan@gmail.com" className="cta-button">Let's Connect</a>
         </div>
-        <button class="scroll-arrow" onclick="scrollToSection('about')">↓</button>
-    </section>
+        <button className="scroll-arrow" onClick={() => window.scrollToSection('about')}>↓</button>
+      </section>
 
-    <!-- About Section -->
-    <section class="section about-section" id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="section-content">
-                <p><span class="highlight">An academic scholar and young innovator at Arcadia British School,</span> I thrive on challenges that test both mind and body — from representing my school at ADISSA sports events to placing in STEM competitions and winning entrepreneurial challenges.</p>
-                
-                <p>I believe in balancing academics with real-world impact — seen in my volunteering, coaching roles, and published writing. Every experience shapes my journey of growth, leadership, and curiosity.</p>
-                
-                <p>My passion lies in <span class="highlight">innovation, leadership, and making meaningful contributions</span> to my community while pursuing academic excellence.</p>
-            </div>
-
-            <div class="social-media-icons">
-                <a href="https://www.linkedin.com/in/eshaanniyas" target="_blank" rel="noopener noreferrer" class="social-icon" title="LinkedIn">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                        <path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25zM19 19h-3v-4.75c0-1.4-1.2-2.5-2.5-2.5S11 12.85 11 14.25V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.6-1.4c1.8 0 3.5 1.4 3.5 4.6z"></path>
-                    </svg>
-                </a>
-                <a href="mailto:niyaseshaan@gmail.com" class="social-icon" title="Email">
-                    <i data-lucide="mail"></i>
-                </a>
-                <a href="https://medium.com/@niyaseshaan" target="_blank" rel="noopener noreferrer" class="social-icon" title="Medium">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                        <path d="M5.79,3.37A6.47,6.47,0,0,0,3.32,3.24L3.25,3.22C1.61,3.46,1,4.48,1,6.13V17.87c0,1.65.61,2.67,2.25,2.91l.07,0a6.47,6.47,0,0,0,2.47-.13l.05,0c1-.26,1.48-1,1.48-2.3V6.67C7.27,5.4,6.76,4.64,5.84,4.35l-.05,0ZM16.33,3.22c-2.45,0-3.32.93-3.32,3.37V17.41c0,2.45.87,3.37,3.32,3.37s3.32-.93,3.32-3.37V6.59C19.65,4.15,18.78,3.22,16.33,3.22ZM23,5.15c0-1.09-.2-1.78-1.53-1.78s-1.53.69-1.53,1.78v13.7c0,1.09.2,1.78,1.53,1.78s1.53-.69,1.53-1.78V5.15Z"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="section portfolio-section" id="portfolio">
-        <div class="container">
-            <h2 class="section-title">Portfolio</h2>
-            <div class="section-content">
-                <p>Explore my latest academic achievements, science fair innovations, leadership experiences, and published work. Each project represents a step in my journey of continuous learning and growth.</p>
-                
-                <p><span class="highlight">From STEM competitions to entrepreneurial ventures</span>, my portfolio showcases the diverse range of challenges I've embraced and the impact I've made.</p>
-            </div>
+      {/* About Section */}
+      <section className="section about-section" id="about">
+        <div className="container">
+          <h2 className="section-title">About Me</h2>
+          <div className="section-content">
+            <p><span className="highlight">An academic scholar and young innovator at Arcadia British School,</span> I thrive on challenges that test both mind and body — from representing my school at ADISSA sports events to placing in STEM competitions and winning entrepreneurial challenges.</p>
             
-            <a href="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/0c3521be0_EshaanNiyassWebsiteCompressed.pdf" target="_blank" rel="noopener noreferrer" class="portfolio-button">
-                View My Full Portfolio
+            <p>I believe in balancing academics with real-world impact — seen in my volunteering, coaching roles, and published writing. Every experience shapes my journey of growth, leadership, and curiosity.</p>
+            
+            <p>My passion lies in <span className="highlight">innovation, leadership, and making meaningful contributions</span> to my community while pursuing academic excellence.</p>
+          </div>
+
+          <div className="social-media-icons">
+            <a href="https://www.linkedin.com/in/eshaanniyas" target="_blank" rel="noopener noreferrer" className="social-icon" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                  <path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25zM19 19h-3v-4.75c0-1.4-1.2-2.5-2.5-2.5S11 12.85 11 14.25V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.6-1.4c1.8 0 3.5 1.4 3.5 4.6z"></path>
+                </svg>
             </a>
+            <a href="mailto:niyaseshaan@gmail.com" className="social-icon" title="Email">
+              <Mail size={24} />
+            </a>
+            <a href="https://medium.com/@niyaseshaan" target="_blank" rel="noopener noreferrer" className="social-icon" title="Medium">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                  <path d="M5.79,3.37A6.47,6.47,0,0,0,3.32,3.24L3.25,3.22C1.61,3.46,1,4.48,1,6.13V17.87c0,1.65.61,2.67,2.25,2.91l.07,0a6.47,6.47,0,0,0,2.47-.13l.05,0c1-.26,1.48-1,1.48-2.3V6.67C7.27,5.4,6.76,4.64,5.84,4.35l-.05,0ZM16.33,3.22c-2.45,0-3.32.93-3.32,3.37V17.41c0,2.45.87,3.37,3.32,3.37s3.32-.93,3.32-3.37V6.59C19.65,4.15,18.78,3.22,16.33,3.22ZM23,5.15c0-1.09-.2-1.78-1.53-1.78s-1.53.69-1.53,1.78v13.7c0,1.09.2,1.78,1.53,1.78s1.53-.69,1.53-1.78V5.15Z"></path>
+                </svg>
+            </a>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- Contact/Footer -->
-    <footer class="footer" id="contact">
-        <div class="container">
-            <p><strong>Let's connect</strong></p>
-            <p>Email: <a href="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a></p>
-            <p style="margin-top: 40px; opacity: 0.7;">© 2025 Eshaan Niyas. Crafted with passion for innovation.</p>
+      {/* Contact/Footer */}
+      <footer className="footer" id="contact">
+        <div className="container">
+          <p><strong>Let's connect</strong></p>
+          <p>Email: <a href="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a></p>
+          <p style={{marginTop: '40px', opacity: 0.7}}>© 2025 Eshaan Niyas. Crafted with passion for innovation.</p>
         </div>
-    </footer>
-
-    <script>
-        // Smooth scrolling function
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId)?.scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-
-        // Navbar background change on scroll
-        const handleScroll = () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar?.classList.add('scrolled');
-            } else {
-                navbar?.classList.remove('scrolled');
-            }
-
-            // Hide scroll arrow after first scroll
-            const scrollArrow = document.querySelector('.scroll-arrow');
-            if (scrollArrow) {
-                if (window.scrollY > 100) {
-                    scrollArrow.style.opacity = '0';
-                } else {
-                    scrollArrow.style.opacity = '0.7';
-                }
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        // Initialize Lucide icons
-        document.addEventListener('DOMContentLoaded', function() {
-            lucide.createIcons();
-        });
-    </script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
