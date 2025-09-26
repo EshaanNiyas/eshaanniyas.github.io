@@ -1,46 +1,487 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Eshaan Niyas</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eshaan Niyas - Academic Scholar & Young Innovator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+          font-weight: 400;
+          line-height: 1.6;
+          overflow-x: hidden;
+          scroll-behavior: smooth;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation */
+        .nav {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          z-index: 1000;
+          padding: 20px 0;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav.scrolled {
+          background: rgba(255, 255, 255, 0.95);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          padding: 15px 0;
+        }
+
+        .nav.scrolled .nav-logo {
+          color: #1a1a1a;
+        }
+
+        .nav.scrolled .nav-links a {
+          color: #4a5568;
+        }
+
+        .nav.scrolled .nav-links a:hover {
+          color: #1a1a1a;
+        }
+
+        .nav-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .nav-logo {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.75rem;
+          font-weight: 600;
+          color: #ffffff;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+          display: flex;
+          gap: 48px;
+        }
+
+        .nav-links a {
+          color: rgba(255, 255, 255, 0.8);
+          text-decoration: none;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.95rem;
+          font-weight: 500;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          letter-spacing: 0.01em;
+          position: relative;
+        }
+
+        .nav-links a::after {
+          content: '';
+          position: absolute;
+          bottom: -6px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #667eea, #764ba2);
+          transition: width 0.3s ease;
+          border-radius: 1px;
+        }
+
+        .nav-links a:hover {
+          color: #ffffff;
+        }
+
+        .nav-links a:hover::after {
+          width: 100%;
+        }
+
+        .hero-section {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          flex-direction: column;
+          text-align: center;
+          color: white;
+        }
+
+        .hero-content {
+          z-index: 2;
+          position: relative;
+          max-width: 800px;
+          padding: 0 20px;
+        }
+
+        .hero-name {
+          font-family: 'Playfair Display', serif;
+          font-size: 5.5rem;
+          font-weight: 700;
+          color: #ffffff;
+          margin-bottom: 24px;
+          animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1);
+          letter-spacing: -0.03em;
+          line-height: 0.9;
+        }
+
+        .hero-subtitle {
+          font-family: 'Inter', sans-serif;
+          font-size: 1.375rem;
+          font-weight: 400;
+          margin-bottom: 40px;
+          opacity: 0.92;
+          animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+          letter-spacing: 0.01em;
+          color: rgba(255, 255, 255, 0.95);
+        }
+
+        .cta-button {
+          font-family: 'Inter', sans-serif;
+          color: #ffffff;
+          background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+          font-size: 1rem;
+          font-weight: 600;
+          border: none;
+          padding: 16px 32px;
+          border-radius: 50px;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          text-decoration: none;
+          display: inline-block;
+          animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+          box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+          letter-spacing: 0.02em;
+        }
+
+        .cta-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 16px 48px rgba(255, 107, 107, 0.4);
+          background: linear-gradient(135deg, #ff5252, #ff7043);
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .scroll-arrow {
+          position: absolute;
+          bottom: 40px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 1.5rem;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          animation: bounce 2s infinite;
+          z-index: 1000;
+          color: rgba(255, 255, 255, 0.7);
+          transition: opacity 0.3s ease;
+        }
+
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateX(-50%) translateY(0);
+          }
+          40% {
+            transform: translateX(-50%) translateY(-12px);
+          }
+          60% {
+            transform: translateX(-50%) translateY(-6px);
+          }
+        }
+
+        .section {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 120px 40px;
+        }
+
+        .about-section {
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .container {
+          max-width: 900px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .section-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 3.5rem;
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: #1a202c;
+          margin-bottom: 32px;
+          position: relative;
+          line-height: 1.1;
+        }
+
+        .section-title::after {
+          content: '';
+          position: absolute;
+          bottom: -16px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80px;
+          height: 3px;
+          background: linear-gradient(90deg, #667eea, #764ba2);
+          border-radius: 2px;
+        }
+
+        .section-content {
+          font-family: 'Inter', sans-serif;
+          font-size: 1.125rem;
+          font-weight: 400;
+          line-height: 1.8;
+          color: #4a5568;
+          margin-bottom: 48px;
+          letter-spacing: 0.005em;
+        }
+
+        .section-content p {
+          margin-bottom: 24px;
+        }
+
+        .highlight {
+          font-weight: 600;
+          color: #2d3748;
+        }
+
+        .social-media-icons {
+          margin-top: 40px;
+          display: flex;
+          justify-content: center;
+          gap: 24px;
+        }
+
+        .social-icon {
+          width: 56px;
+          height: 56px;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          color: white;
+          font-size: 1.25rem;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.25);
+        }
+
+        .social-icon:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 16px 48px rgba(102, 126, 234, 0.35);
+          background: linear-gradient(135deg, #5a67d8, #6b46c1);
+        }
+
+        .footer {
+          background: linear-gradient(135deg, #2d3748, #1a202c);
+          color: #e2e8f0;
+          text-align: center;
+          padding: 64px 40px;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+
+        .footer a {
+          color: #81c5f7;
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+          color: #63b3ed;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .nav-content {
+            padding: 0 24px;
+          }
+
+          .nav-links {
+            display: none;
+          }
+
+          .hero-name {
+            font-size: 3.5rem;
+          }
+
+          .hero-subtitle {
+            font-size: 1.125rem;
+          }
+
+          .section {
+            padding: 80px 24px;
+          }
+
+          .section-title {
+            font-size: 2.5rem;
+          }
+
+          .section-content {
+            font-size: 1rem;
+          }
+
+          .social-media-icons {
+            gap: 16px;
+          }
+
+          .social-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.125rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-name {
+            font-size: 2.75rem;
+          }
+
+          .section {
+            padding: 60px 20px;
+          }
+
+          .container {
+            max-width: 100%;
+          }
+
+          .nav-content {
+            padding: 0 20px;
+          }
+        }
+
+        /* Smooth scrolling for older browsers */
+        html {
+          scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
-
-  <header>
-    <div class="logo">eshaanniyas</div>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <a href__="#home" class="nav-logo">eshaanniyas</a>
+            <div class="nav-links">
+                <a href__="#home">Home</a>
+                <a href__="#about">About</a>
+                <a href__="#contact">Contact</a>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <section class="hero">
-    <h1>Eshaan Niyas</h1>
-    <p>Academic Scholar & Young Innovator</p>
-    <a href="#contact" class="btn">Let's Connect</a>
-  </section>
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="hero-content">
+            <h1 class="hero-name">Eshaan Niyas</h1>
+            <p class="hero-subtitle">Academic Scholar & Young Innovator</p>
+            <a href__="mailto:niyaseshaan@gmail.com" class="cta-button">Let's Connect</a>
+        </div>
+        <button class="scroll-arrow" onclick="scrollToSection('about')">↓</button>
+    </section>
 
-  <section class="about" id="about">
-    <h2>About Me</h2>
-    <p><strong>An academic scholar and young innovator at Arcadia British School</strong>, I thrive on challenges that test both mind and body — from representing my school at ADISSA sports events to placing in STEM competitions and winning entrepreneurial challenges.</p>
-    <p>I believe in balancing academics with real-world impact — seen in my volunteering, coaching roles, and published writing. Every experience shapes my journey of growth, leadership, and curiosity.</p>
-    <p>My passion lies in <strong>innovation, leadership, and making meaningful contributions</strong> to my community while pursuing academic excellence.</p>
+    <!-- About Section -->
+    <section class="section about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="section-content">
+                <p><span class="highlight">An academic scholar and young innovator at Arcadia British School,</span> I thrive on challenges that test both mind and body — from representing my school at ADISSA sports events to placing in STEM competitions and winning entrepreneurial challenges.</p>
+                
+                <p>I believe in balancing academics with real-world impact — seen in my volunteering, coaching roles, and published writing. Every experience shapes my journey of growth, leadership, and curiosity.</p>
+                
+                <p>My passion lies in <span class="highlight">innovation, leadership, and making meaningful contributions</span> to my community while pursuing academic excellence.</p>
+            </div>
 
-    <div class="icons">
-      <a href="#"><i class="fas fa-briefcase"></i></a>
-      <a href="mailto:email@example.com"><i class="fas fa-envelope"></i></a>
-      <a href="#"><i class="fas fa-pause-circle"></i></a>
-    </div>
-  </section>
+            <div class="social-media-icons">
+                <a href__="https://www.linkedin.com/in/eshaanniyas" target="_blank" rel="noopener noreferrer" class="social-icon" title="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                        <path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25zM19 19h-3v-4.75c0-1.4-1.2-2.5-2.5-2.5S11 12.85 11 14.25V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.6-1.4c1.8 0 3.5 1.4 3.5 4.6z"></path>
+                    </svg>
+                </a>
+                <a href__="mailto:niyaseshaan@gmail.com" class="social-icon" title="Email">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m4 4 16 0 0 16L4 20Z"></path>
+                        <path d="m4 6 8 6 8-6"></path>
+                    </svg>
+                </a>
+                <a href__="https://medium.com/@niyaseshaan" target="_blank" rel="noopener noreferrer" class="social-icon" title="Medium">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                        <path d="M5.79,3.37A6.47,6.47,0,0,0,3.32,3.24L3.25,3.22C1.61,3.46,1,4.48,1,6.13V17.87c0,1.65.61,2.67,2.25,2.91l.07,0a6.47,6.47,0,0,0,2.47-.13l.05,0c1-.26,1.48-1,1.48-2.3V6.67C7.27,5.4,6.76,4.64,5.84,4.35l-.05,0ZM16.33,3.22c-2.45,0-3.32.93-3.32,3.37V17.41c0,2.45.87,3.37,3.32,3.37s3.32-.93,3.32-3.37V6.59C19.65,4.15,18.78,3.22,16.33,3.22ZM23,5.15c0-1.09-.2-1.78-1.53-1.78s-1.53.69-1.53,1.78v13.7c0,1.09.2,1.78,1.53,1.78s1.53-.69,1.53-1.78V5.15Z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
 
+    <!-- Contact/Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <p><strong>Let's connect</strong></p>
+            <p>Email: <a href__="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a></p>
+            <p style="margin-top: 40px; opacity: 0.7;">© 2025 Eshaan Niyas. Crafted with passion for innovation.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling function
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId)?.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Navbar background change on scroll
+        function handleScroll() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar?.classList.add('scrolled');
+            } else {
+                navbar?.classList.remove('scrolled');
+            }
+
+            // Hide scroll arrow after first scroll
+            const scrollArrow = document.querySelector('.scroll-arrow');
+            if (scrollArrow) {
+                if (window.scrollY > 100) {
+                    scrollArrow.style.opacity = '0';
+                } else {
+                    scrollArrow.style.opacity = '0.7';
+                }
+            }
+        }
+
+        // Add event listener when page loads
+        window.addEventListener('load', function() {
+            window.addEventListener('scroll', handleScroll);
+        });
+    </script>
 </body>
 </html>
