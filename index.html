@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Mail } from 'lucide-react';
 
@@ -422,11 +421,11 @@ export default function Home() {
       {/* Navigation */}
       <nav className="nav" id="navbar">
         <div className="nav-content">
-          <a href="#home" className="nav-logo">eshaanniyas</a>
+          <a href__="#home" className="nav-logo">eshaanniyas</a>
           <div className="nav-links">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a href__="#home">Home</a>
+            <a href__="#about">About</a>
+            <a href__="#contact">Contact</a>
           </div>
         </div>
       </nav>
@@ -436,7 +435,7 @@ export default function Home() {
         <div className="hero-content">
           <h1 className="hero-name">Eshaan Niyas</h1>
           <p className="hero-subtitle">Academic Scholar & Young Innovator</p>
-          <a href="mailto:niyaseshaan@gmail.com" className="cta-button">Let's Connect</a>
+          <a href__="mailto:niyaseshaan@gmail.com" className="cta-button">Let's Connect</a>
         </div>
         <button className="scroll-arrow" onClick={() => window.scrollToSection('about')}>↓</button>
       </section>
@@ -450,35 +449,3 @@ export default function Home() {
             
             <p>I believe in balancing academics with real-world impact — seen in my volunteering, coaching roles, and published writing. Every experience shapes my journey of growth, leadership, and curiosity.</p>
             
-            <p>My passion lies in <span className="highlight">innovation, leadership, and making meaningful contributions</span> to my community while pursuing academic excellence.</p>
-          </div>
-
-          <div className="social-media-icons">
-            <a href="https://www.linkedin.com/in/eshaanniyas" target="_blank" rel="noopener noreferrer" className="social-icon" title="LinkedIn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                  <path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25zM19 19h-3v-4.75c0-1.4-1.2-2.5-2.5-2.5S11 12.85 11 14.25V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.6-1.4c1.8 0 3.5 1.4 3.5 4.6z"></path>
-                </svg>
-            </a>
-            <a href="mailto:niyaseshaan@gmail.com" className="social-icon" title="Email">
-              <Mail size={24} />
-            </a>
-            <a href="https://medium.com/@niyaseshaan" target="_blank" rel="noopener noreferrer" className="social-icon" title="Medium">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                  <path d="M5.79,3.37A6.47,6.47,0,0,0,3.32,3.24L3.25,3.22C1.61,3.46,1,4.48,1,6.13V17.87c0,1.65.61,2.67,2.25,2.91l.07,0a6.47,6.47,0,0,0,2.47-.13l.05,0c1-.26,1.48-1,1.48-2.3V6.67C7.27,5.4,6.76,4.64,5.84,4.35l-.05,0ZM16.33,3.22c-2.45,0-3.32.93-3.32,3.37V17.41c0,2.45.87,3.37,3.32,3.37s3.32-.93,3.32-3.37V6.59C19.65,4.15,18.78,3.22,16.33,3.22ZM23,5.15c0-1.09-.2-1.78-1.53-1.78s-1.53.69-1.53,1.78v13.7c0,1.09.2,1.78,1.53,1.78s1.53-.69,1.53-1.78V5.15Z"></path>
-                </svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact/Footer */}
-      <footer className="footer" id="contact">
-        <div className="container">
-          <p><strong>Let's connect</strong></p>
-          <p>Email: <a href="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a></p>
-          <p style={{marginTop: '40px', opacity: 0.7}}>© 2025 Eshaan Niyas. Crafted with passion for innovation.</p>
-        </div>
-      </footer>
-    </div>
-  );
-}
