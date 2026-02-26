@@ -1,36 +1,171 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Navigation from '@/components/portfolio/Navigation';
-import HeroSection from '@/components/portfolio/HeroSection';
-import AboutSection from '@/components/portfolio/AboutSection';
-import ProjectsSection from '@/components/portfolio/ProjectsSection';
-import Footer from '@/components/portfolio/Footer';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Eshaan Niyas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-export default function Home() {
-  const [scrolled, setScrolled] = useState(false);
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    body {
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+      line-height: 1.6;
+    }
 
-  const scrollToSection = (sectionId) => {
-    document.getElementById(sectionId)?.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
-  };
+    /* Navigation */
+    nav {
+      position: fixed;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s ease;
+      z-index: 1000;
+    }
 
-  return (
-    <div className="min-h-screen font-sans antialiased">
-      <Navigation scrolled={scrolled} onNavigate={scrollToSection} />
-      <HeroSection onScrollDown={() => scrollToSection('projects')} />
-      <ProjectsSection />
-      <AboutSection />
-      <Footer />
+    nav.scrolled {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: black;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .hero button {
+      padding: 12px 25px;
+      border: none;
+      background: white;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+
+    .hero button:hover {
+      background: #eee;
+    }
+
+    /* Sections */
+    .section {
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    .light {
+      background: #f4f4f4;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav id="navigation">
+    <div class="logo">Eshaan Niyas</div>
+    <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div>
+      <h1>Hi, I'm Eshaan Niyas</h1>
+      <p>Welcome to my personal website</p>
+      <br>
+      <button onclick="scrollToSection('about')">Learn More</button>
     </div>
-  );
-}
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <h2>About Me</h2>
+    <p>
+      I am passionate about technology, creativity and learning.
+      This website showcases my journey and projects.
+    </p>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section light">
+    <h2>Contact</h2>
+    <p>Email: example@email.com</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Eshaan Niyas. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    }
+
+    window.addEventListener("scroll", function () {
+      const nav = document.getElementById("navigation");
+      if (window.scrollY > 50) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+    });
+  </script>
+
+</body>
+</html>
