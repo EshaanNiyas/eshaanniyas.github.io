@@ -1,171 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Eshaan Niyas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <link href__="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; color: #1a202c; }
 
-    body {
-      font-family: Arial, sans-serif;
-      scroll-behavior: smooth;
-      line-height: 1.6;
-    }
-
-    /* Navigation */
+    /* NAV */
     nav {
-      position: fixed;
-      width: 100%;
+      position: fixed; top: 0; width: 100%; z-index: 50;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: 0.3s ease;
-      z-index: 1000;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.5s ease;
     }
-
     nav.scrolled {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      background: rgba(255,255,255,0.95);
+      border-bottom: 1px solid #f0f0f0;
+      padding: 16px 40px;
     }
-
-    .logo {
-      font-weight: bold;
-      font-size: 20px;
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 600;
+      color: white; text-decoration: none;
+      transition: color 0.3s;
     }
-
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-    }
-
+    nav.scrolled .nav-logo { color: #1a202c; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
     .nav-links a {
-      text-decoration: none;
-      color: black;
-      font-weight: 600;
+      font-size: 0.875rem; font-weight: 500;
+      color: rgba(255,255,255,0.8); text-decoration: none;
+      position: relative; transition: color 0.3s;
+      letter-spacing: 0.05em;
     }
+    nav.scrolled .nav-links a { color: #4a5568; }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -6px; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, #6366f1, #9333ea);
+      border-radius: 99px; transition: width 0.3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a:hover { color: white; }
+    nav.scrolled .nav-links a:hover { color: #1a202c; }
 
-    /* Hero */
-    .hero {
-      height: 100vh;
+    /* HERO */
+    #home {
+      height: 85vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; position: relative;
+      color: white; padding: 0 24px;
+      background-image: url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/699eea620341d0937d209338/a3551f55d_image.png');
+      background-size: cover;
+      background-position: center 20%;
+      background-repeat: no-repeat;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .hero-content { position: relative; z-index: 10; max-width: 700px; }
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 700; line-height: 1;
+      margin-bottom: 24px; color: white;
+      animation: fadeUp 0.8s ease forwards; opacity: 0;
+    }
+    .hero-content p {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      font-weight: 300; margin-bottom: 40px;
+      color: rgba(255,255,255,0.9); letter-spacing: 0.05em;
+      animation: fadeUp 0.8s 0.2s ease forwards; opacity: 0;
+    }
+    .hero-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 36px; border-radius: 999px;
+      font-weight: 600; font-size: 1rem;
+      color: white; text-decoration: none;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+      box-shadow: 0 8px 32px rgba(255,107,107,0.3);
+      transition: all 0.3s ease;
+      animation: fadeUp 0.8s 0.4s ease forwards; opacity: 0;
+    }
+    .hero-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(255,107,107,0.4);
+      background: linear-gradient(135deg, #ff5252, #ff7043);
+    }
+    .scroll-down {
+      position: absolute; bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.7);
+      animation: bounce 2s infinite;
+      z-index: 10;
+    }
+    .scroll-down svg { width: 32px; height: 32px; }
+
+    /* ABOUT */
+    #about {
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center;
+      padding: 96px 24px;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    .about-inner { max-width: 700px; text-align: center; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 600; color: #1a202c;
+      position: relative; display: inline-block;
+      margin-bottom: 48px;
+    }
+    .section-title::after {
+      content: ''; position: absolute;
+      bottom: -16px; left: 50%; transform: translateX(-50%);
+      width: 80px; height: 4px;
+      background: linear-gradient(90deg, #6366f1, #9333ea);
+      border-radius: 99px;
+    }
+    .about-text { font-size: 1.1rem; color: #4a5568; line-height: 1.9; }
+    .about-text p { margin-bottom: 24px; }
+    .about-text strong { color: #1a202c; font-weight: 600; }
+
+    /* SOCIAL LINKS */
+    .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 48px; }
+    .social-link {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white; text-decoration: none;
       background: linear-gradient(135deg, #667eea, #764ba2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: white;
-      padding: 20px;
+      box-shadow: 0 8px 32px rgba(102,126,234,0.25);
+      transition: all 0.3s ease;
     }
-
-    .hero h1 {
-      font-size: 48px;
-      margin-bottom: 20px;
+    .social-link:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(102,126,234,0.35);
+      background: linear-gradient(135deg, #5a67d8, #6b46c1);
     }
+    .social-link svg { width: 24px; height: 24px; }
 
-    .hero button {
-      padding: 12px 25px;
-      border: none;
-      background: white;
-      color: #333;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: 0.3s;
+    /* FOOTER */
+    #contact {
+      padding: 64px 24px; text-align: center;
+      background: linear-gradient(135deg, #2d3748, #1a202c);
     }
+    #contact p { color: #e2e8f0; margin-bottom: 12px; font-size: 1.1rem; font-weight: 600; }
+    #contact a { color: #63b3ed; text-decoration: none; transition: color 0.3s; }
+    #contact a:hover { color: #90cdf4; }
+    .footer-copy { margin-top: 40px; color: #718096; font-size: 0.85rem; }
 
-    .hero button:hover {
-      background: #eee;
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
-    /* Sections */
-    .section {
-      padding: 100px 20px;
-      text-align: center;
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-12px); }
+      60% { transform: translateX(-50%) translateY(-6px); }
     }
-
-    .light {
-      background: #f4f4f4;
+    .fade-in-section {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
+    .fade-in-section.visible { opacity: 1; transform: translateY(0); }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #111;
-      color: white;
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      nav.scrolled { padding: 12px 20px; }
+      .nav-links { gap: 20px; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- Navigation -->
-  <nav id="navigation">
-    <div class="logo">Eshaan Niyas</div>
+  <!-- NAVIGATION -->
+  <nav id="navbar">
+    <a href__="#home" class="nav-logo">eshaanniyas</a>
     <ul class="nav-links">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href__="#home">Home</a></li>
+      <li><a href__="#about">About</a></li>
+      <li><a href__="#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="hero" class="hero">
-    <div>
-      <h1>Hi, I'm Eshaan Niyas</h1>
-      <p>Welcome to my personal website</p>
-      <br>
-      <button onclick="scrollToSection('about')">Learn More</button>
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Eshaan Niyas</h1>
+      <p>Academic Scholar &amp; Young Innovator</p>
+      <a href__="mailto:niyaseshaan@gmail.com" class="hero-btn">Let's Connect</a>
+    </div>
+    <button class="scroll-down" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-inner fade-in-section">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-text">
+        <p>
+          <strong>An academic scholar and young innovator at Arcadia British School,</strong>
+          I thrive on challenges that test both mind and body — from representing
+          my school at ADISSA sports events to placing in STEM competitions and
+          winning entrepreneurial challenges.
+        </p>
+        <p>
+          I believe in balancing academics with real-world impact — seen in my
+          volunteering, coaching roles, and published writing. Every experience
+          shapes my journey of growth, leadership, and curiosity.
+        </p>
+        <p>
+          My passion lies in <strong>innovation, leadership, and making meaningful contributions</strong>
+          to my community while pursuing academic excellence.
+        </p>
+      </div>
+
+      <div class="social-links">
+        <!-- LinkedIn -->
+        <a href__="https://www.linkedin.com/in/eshaanniyas" target="_blank" class="social-link" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <!-- Email -->
+        <a href__="mailto:niyaseshaan@gmail.com" class="social-link" title="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+        <!-- Medium -->
+        <a href__="https://medium.com/@niyaseshaan" target="_blank" class="social-link" title="Medium">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:24px;height:24px;">
+            <path d="M5.79,3.37A6.47,6.47,0,0,0,3.32,3.24L3.25,3.22C1.61,3.46,1,4.48,1,6.13V17.87c0,1.65.61,2.67,2.25,2.91l.07,0a6.47,6.47,0,0,0,2.47-.13l.05,0c1-.26,1.48-1,1.48-2.3V6.67C7.27,5.4,6.76,4.64,5.84,4.35l-.05,0ZM16.33,3.22c-2.45,0-3.32.93-3.32,3.37V17.41c0,2.45.87,3.37,3.32,3.37s3.32-.93,3.32-3.37V6.59C19.65,4.15,18.78,3.22,16.33,3.22ZM23,5.15c0-1.09-.2-1.78-1.53-1.78s-1.53.69-1.53,1.78v13.7c0,1.09.2,1.78,1.53,1.78s1.53-.69,1.53-1.78V5.15Z"/>
+          </svg>
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="section">
-    <h2>About Me</h2>
-    <p>
-      I am passionate about technology, creativity and learning.
-      This website showcases my journey and projects.
-    </p>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="section light">
-    <h2>Contact</h2>
-    <p>Email: example@email.com</p>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2026 Eshaan Niyas. All Rights Reserved.</p>
+  <!-- CONTACT / FOOTER -->
+  <footer id="contact">
+    <div style="max-width:700px;margin:0 auto;">
+      <p>Let's connect</p>
+      <p style="font-weight:400;color:#cbd5e0;">Email: <a href__="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a></p>
+      <p class="footer-copy">© 2025 Eshaan Niyas. Crafted with passion for innovation.</p>
+    </div>
   </footer>
 
   <script>
-    function scrollToSection(sectionId) {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }
-    }
-
-    window.addEventListener("scroll", function () {
-      const nav = document.getElementById("navigation");
-      if (window.scrollY > 50) {
-        nav.classList.add("scrolled");
-      } else {
-        nav.classList.remove("scrolled");
-      }
+    // Scrolled nav style
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
     });
-  </script>
 
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
