@@ -230,17 +230,23 @@
     // ---------- physics ----------
     const world = new CANNON.World({ gravity: new CANNON.Vec3(0, -20, 0) });
     world.broadphase = new CANNON.SAPBroadphase(world);
-    world.defaultContactMaterial.friction = 0.25;
+    world.allowSleep = true;
+    world.defaultContactMaterial.friction = 0.5;
 
     const groundMat = new CANNON.Material('ground');
     world.addContactMaterial(new CANNON.ContactMaterial(groundMat, groundMat, {
-      friction: 0.4, restitution: 0.1
+      friction: 0.4, restitution: 0
     }));
 
     const ARENA = 60;
 
-    const groundBody = new CANNON.Body({ mass: 0, shape: new CANNON.Plane(), material: groundMat });
-    groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+    // a thick box rather than a plane: RaycastVehicle wheel rays hit boxes reliably
+    const groundBody = new CANNON.Body({
+      mass: 0,
+      shape: new CANNON.Box(new CANNON.Vec3(ARENA, 1, ARENA)),
+      material: groundMat
+    });
+    groundBody.position.set(0, -1, 0);
     world.addBody(groundBody);
 
     const ground = new THREE.Mesh(
@@ -274,6 +280,7 @@
     chassisBody.addShape(new CANNON.Box(new CANNON.Vec3(CHASSIS.w / 2, CHASSIS.h / 2, CHASSIS.l / 2)));
     chassisBody.position.set(0, 2, 8);
     chassisBody.angularDamping = 0.4;
+    chassisBody.allowSleep = false;
 
     const vehicle = new CANNON.RaycastVehicle({
       chassisBody, indexRightAxis: 0, indexUpAxis: 1, indexForwardAxis: 2
@@ -342,6 +349,9 @@
         material: groundMat
       });
       body.position.set(x, y, z);
+      body.allowSleep = true;
+      body.sleepSpeedLimit = 0.4;
+      body.sleepTimeLimit = 0.6;
       world.addBody(body);
       props.push({ mesh, body });
     }
@@ -353,9 +363,16 @@
       addBox(Math.cos(a) * r, size / 2 + 0.1, Math.sin(a) * r, size, propColors[i % propColors.length]);
     }
     // a stack to smash
+    const STACK_SIZE = 1.1, STACK_GAP = 1.25;
     for (let level = 0; level < 5; level++) {
       for (let i = 0; i <= level; i++) {
-        addBox(-6 + i * 1.15 - level * 0.575, (4 - level) * 1.15 + 0.6, -8, 1.1, propColors[level % propColors.length]);
+        addBox(
+          -6 + (i - level / 2) * STACK_GAP,
+          (4 - level) * STACK_GAP + STACK_SIZE / 2,
+          -8,
+          STACK_SIZE,
+          propColors[level % propColors.length]
+        );
       }
     }
 
@@ -461,7 +478,8 @@
       chassisBody.quaternion.set(0, 0, 0, 1);
     }
 
-    const MAX_FORCE = 900;
+    const MAX_FORCE = 450;
+    const MAX_SPEED = 22;
     const MAX_STEER = 0.5;
     let steer = 0;
 
@@ -471,10 +489,14 @@
       vehicle.setSteeringValue(steer, 0);
       vehicle.setSteeringValue(steer, 1);
 
-      const force = keys.forward ? -MAX_FORCE : keys.back ? MAX_FORCE * 0.6 : 0;
+      // +engineForce drives the car along its -z (nose) direction
+      const speed = chassisBody.velocity.length();
+      const throttled = speed < MAX_SPEED;
+      const force = !throttled ? 0 : keys.forward ? MAX_FORCE : keys.back ? -MAX_FORCE * 0.6 : 0;
       for (let i = 0; i < 4; i++) vehicle.applyEngineForce(force, i);
 
-      const brake = keys.brake ? 40 : (force === 0 ? 6 : 0);
+      const coasting = !keys.forward && !keys.back;
+      const brake = keys.brake ? 40 : coasting ? 6 : 0;
       for (let i = 0; i < 4; i++) vehicle.setBrake(brake, i);
     }
 
