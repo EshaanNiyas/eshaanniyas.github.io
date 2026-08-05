@@ -136,7 +136,7 @@ section { position: relative; padding: clamp(96px, 14vh, 176px) 0; }
 }
 #hero-canvas {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  display: block; z-index: 0;
+  display: block; z-index: 1; opacity: 0.4;
 }
 .hero::after {
   content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -144,10 +144,73 @@ section { position: relative; padding: clamp(96px, 14vh, 176px) 0; }
     radial-gradient(60% 50% at 50% 45%, transparent, rgba(5, 6, 10, 0.55) 75%),
     linear-gradient(180deg, rgba(5, 6, 10, 0.7), transparent 22%, transparent 62%, var(--bg));
 }
-.hero-inner { position: relative; z-index: 2; width: var(--shell); margin: 0 auto; }
+/* the photograph, blurred, is the base layer of the hero light */
+.hero-ambient {
+  position: absolute; inset: -8% -4%; z-index: 0;
+  background: url('../img/hero-ambient.jpg') center/cover no-repeat;
+  opacity: 0.42;
+  transform: scale(1.08) translate3d(0, var(--parallax, 0px), 0);
+  animation: heroDrift 26s var(--ease) infinite alternate;
+  will-change: transform;
+}
+@keyframes heroDrift {
+  from { transform: scale(1.06) translate3d(0, var(--parallax, 0px), 0); }
+  to { transform: scale(1.14) translate3d(1.5%, var(--parallax, 0px), 0); }
+}
+
+.hero-grid {
+  position: relative; z-index: 2;
+  width: var(--shell); margin: 0 auto;
+  display: grid; grid-template-columns: 1.05fr 0.75fr;
+  align-items: center; gap: clamp(28px, 5vw, 72px);
+  padding: 120px 0 96px;
+}
+.hero-inner { position: relative; }
 .hero h1 {
-  font-size: clamp(3.4rem, 12vw, 8.6rem);
+  font-size: clamp(3rem, 8.4vw, 7rem);
   margin: 22px 0 0;
+}
+
+.hero-facts {
+  display: grid; gap: 14px; margin-top: 46px;
+  padding-top: 26px; border-top: 1px solid var(--line);
+  max-width: 30ch;
+}
+.hero-facts div { display: flex; flex-direction: column; gap: 2px; }
+.hero-facts dt { font-size: 0.9rem; font-weight: 500; }
+.hero-facts dd { font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+
+.hero-portrait { position: relative; margin: 0; }
+.portrait-frame {
+  position: relative; overflow: hidden;
+  border-radius: 26px; border: 1px solid var(--line);
+  background: var(--glass);
+  box-shadow: 0 50px 120px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translate3d(0, calc(var(--parallax, 0px) * -0.45), 0);
+  will-change: transform;
+}
+.portrait-frame img {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 9 / 12; object-fit: cover; object-position: 50% 22%;
+  animation: portraitZoom 22s var(--ease) infinite alternate;
+}
+@keyframes portraitZoom { from { transform: scale(1.02); } to { transform: scale(1.1); } }
+.portrait-veil {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 6, 10, 0.28), transparent 34%, rgba(5, 6, 10, 0.72)),
+    radial-gradient(70% 55% at 50% 30%, rgba(99, 102, 241, 0.14), transparent 70%);
+}
+.portrait-sheen {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.14) 50%, transparent 62%);
+  transform: translateX(-30%);
+  animation: sheen 7.5s var(--ease) infinite;
+}
+@keyframes sheen { 0%, 62% { transform: translateX(-40%); } 100% { transform: translateX(40%); } }
+.hero-portrait figcaption {
+  margin-top: 14px; text-align: right;
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--faint);
 }
 .hero h1 .line { display: block; overflow: hidden; }
 .hero h1 .line > span { display: block; }
@@ -324,10 +387,62 @@ footer {
 }
 .reveal.is-visible { opacity: 1; transform: none; }
 
+/* ---------- playground section ---------- */
+.playground .stage {
+  position: relative; margin-top: clamp(32px, 5vw, 56px);
+  border: 1px solid var(--line); border-radius: 28px; overflow: hidden;
+  background: linear-gradient(160deg, rgba(99, 102, 241, 0.16), rgba(34, 211, 238, 0.07) 45%, rgba(5, 6, 10, 0.6));
+  box-shadow: 0 50px 130px rgba(0, 0, 0, 0.55);
+}
+.stage-poster {
+  position: relative; display: grid; align-items: center;
+  min-height: min(70vh, 620px); padding: clamp(28px, 5vw, 64px);
+}
+.stage-glow {
+  position: absolute; inset: -30% -10% auto -10%; height: 120%;
+  background: radial-gradient(45% 50% at 30% 20%, rgba(99, 102, 241, 0.45), transparent 70%),
+              radial-gradient(40% 45% at 82% 70%, rgba(34, 211, 238, 0.3), transparent 72%);
+  filter: blur(20px); pointer-events: none;
+  animation: stagePulse 9s var(--ease) infinite alternate;
+}
+@keyframes stagePulse { from { opacity: 0.6; } to { opacity: 1; } }
+.stage-copy { position: relative; max-width: 46ch; }
+.stage-copy h3 {
+  font-family: 'Instrument Serif', serif; font-weight: 400;
+  font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -0.02em;
+}
+.stage-copy p { margin-top: 16px; color: var(--muted); font-size: 1.02rem; line-height: 1.75; }
+.stage-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.stage-keys {
+  display: flex; flex-wrap: wrap; gap: 18px; margin-top: 34px; list-style: none;
+  font-size: 0.76rem; color: var(--faint);
+}
+.stage-keys kbd {
+  display: inline-block; min-width: 20px; margin-right: 3px; padding: 2px 7px; text-align: center;
+  border: 1px solid var(--line); border-radius: 7px; background: var(--glass);
+  font-family: inherit; font-size: 0.7rem; color: var(--text);
+}
+.stage iframe {
+  display: block; width: 100%; height: min(80vh, 720px); border: 0; background: #05060a;
+}
+.stage.is-live .stage-poster { display: none; }
+.stage-close {
+  position: absolute; top: 16px; right: 16px; z-index: 3;
+  padding: 9px 16px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: rgba(6, 8, 14, 0.72); backdrop-filter: blur(14px);
+  color: var(--text); font: inherit; font-size: 0.76rem; font-weight: 600;
+}
+.stage-close:hover { background: rgba(6, 8, 14, 0.92); }
+
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
   :root { --shell: calc(100vw - 32px); }
   .about-grid { grid-template-columns: 1fr; }
+  .hero-grid { grid-template-columns: 1fr; padding: 104px 0 72px; gap: 34px; }
+  .hero-portrait { order: -1; max-width: 320px; }
+  .hero-portrait figcaption { text-align: left; }
+  .hero-facts { margin-top: 32px; }
+  .stage iframe { height: 68vh; }
   .project, .project.is-wide { grid-column: span 6; min-height: 260px; }
   .nav-links {
     position: absolute; top: calc(100% + 10px); right: 0;
@@ -354,4 +469,5 @@ footer {
     transition-duration: 0.01ms !important;
   }
   .reveal { opacity: 1; transform: none; }
+  .hero-ambient, .portrait-frame img, .portrait-sheen, .stage-glow { animation: none; }
 }

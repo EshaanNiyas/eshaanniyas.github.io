@@ -1,7 +1,7 @@
 // Everything that dresses the valley: trees, rocks, grass tufts, roadside
 // lamps and floating tech motes. All instanced, all kept off the tarmac.
 import * as THREE from 'three';
-import { heightAt, nearestRoad, HALF, ROAD_WIDTH } from './terrain.js';
+import { heightAt, nearestRoad, HALF, ROAD_WIDTH, LAKES, waterLevelAt } from './terrain.js';
 import { PLACES } from './data.js';
 
 // deterministic PRNG so the world looks the same on every visit
@@ -15,6 +15,11 @@ function rng(seed) {
 
 function tooClose(x, z, minRoad) {
   if (nearestRoad(x, z).dist < minRoad) return true;
+  // nothing grows in the lakes
+  for (const lake of LAKES) {
+    if (heightAt(x, z) < waterLevelAt(lake) + 0.4 &&
+        Math.hypot((x - lake.x) / lake.rx, (z - lake.z) / lake.rz) < 1.35) return true;
+  }
   for (const place of PLACES) {
     const [px, pz] = place.position;
     if (Math.hypot(x - px, z - pz) < place.radius + 6) return true;

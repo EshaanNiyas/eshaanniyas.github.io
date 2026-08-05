@@ -105,10 +105,16 @@
     #panel li span { font-size: 0.76rem; color: var(--faint); }
 
     /* minimap */
-    #minimap { position: fixed; right: 20px; bottom: 24px; z-index: 21; padding: 8px; line-height: 0;
-      opacity: 0; transition: opacity 0.9s var(--ease); }
-    #hud.visible ~ #minimap { opacity: 1; }
-    #minimap canvas { width: 148px; height: 148px; border-radius: 12px; }
+    #minimap { position: relative; padding: 8px; line-height: 0; }
+    #minimap canvas { width: 170px; height: 170px; border-radius: 13px; cursor: crosshair; }
+    #map-tip {
+      position: absolute; right: calc(100% + 10px); top: 12px; white-space: nowrap;
+      padding: 6px 12px; border-radius: 999px; line-height: 1.4;
+      border: 1px solid var(--line); background: rgba(9, 12, 20, 0.92); backdrop-filter: blur(14px);
+      font-size: 0.72rem; opacity: 0; transform: translateX(6px); pointer-events: none;
+      transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+    #map-tip.visible { opacity: 1; transform: none; }
 
     /* toast */
     #toast {
@@ -135,6 +141,9 @@
     body.touch #keys { display: none; }
     body.touch #panel { bottom: 112px; }
 
+    /* embedded in the site: the page around it already has the way out */
+    body.embedded #back { display: none; }
+
     /* fallback */
     #fallback { position: fixed; inset: 0; z-index: 200; display: none;
       flex-direction: column; align-items: center; justify-content: center; gap: 18px;
@@ -148,8 +157,8 @@
       .hud-left { max-width: 54vw; }
       .stat { min-width: 132px; }
       #keys { display: none; }
-      #minimap { right: 14px; bottom: 120px; }
-      #minimap canvas { width: 96px; height: 96px; }
+      #minimap canvas { width: 108px; height: 108px; }
+      #map-tip { right: 0; top: calc(100% + 8px); }
     }
   </style>
 </head>
@@ -178,7 +187,11 @@
       </div>
     </div>
     <div class="hud-right">
-      <a class="pill glass" href="../">← Back to site</a>
+      <a class="pill glass" id="back" href="../">← Back to site</a>
+      <div id="minimap" class="glass">
+        <canvas width="340" height="340"></canvas>
+        <span id="map-tip"></span>
+      </div>
       <div class="stat glass">
         <div class="row">
           <span class="value" id="speed">0</span>
@@ -195,7 +208,6 @@
   </div>
 
   <div id="panel"></div>
-  <div id="minimap" class="glass"><canvas width="296" height="296"></canvas></div>
   <div id="toast"></div>
 
   <div id="touch">
@@ -225,6 +237,10 @@
     }
   }
   </script>
+  <script>
+    if (window.self !== window.top) document.body.classList.add('embedded');
+  </script>
+
   <script type="module">
     const supportsWebGL = (() => {
       try {

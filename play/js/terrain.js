@@ -35,7 +35,33 @@ export const PADS = [
   [-40, -118, 22, 12]
 ];
 
+// Water: each lake is an elliptical basin carved out of the hills, with a
+// shore blend that keeps the banks drivable.
+export const LAKES = [
+  { x: 74, z: -18, rx: 27, rz: 21, depth: 6.5 },
+  { x: -84, z: 58, rx: 18, rz: 14, depth: 5.5 }
+];
+
+// A ravine that the ring road crosses on a bridge.
+export const RAVINE = { a: [6, -172], b: [66, -68], width: 12, depth: 13 };
+export const BRIDGES = [{ x: 44, z: -104, span: 40 }];
+
 const smooth = t => t * t * (3 - 2 * t);
+
+function basin(x, z, h) {
+  for (const lake of LAKES) {
+    const d = Math.hypot((x - lake.x) / lake.rx, (z - lake.z) / lake.rz);
+    if (d > 1.6) continue;
+    const w = d <= 1 ? 1 : 1 - smooth((d - 1) / 0.6);
+    h -= lake.depth * w;
+  }
+  const gully = distanceToSegment(x, z, RAVINE.a[0], RAVINE.a[1], RAVINE.b[0], RAVINE.b[1]);
+  if (gully.dist < RAVINE.width * 2.2) {
+    const w = gully.dist <= RAVINE.width ? 1 : 1 - smooth((gully.dist - RAVINE.width) / (RAVINE.width * 1.2));
+    h -= RAVINE.depth * w;
+  }
+  return h;
+}
 
 function rawHeight(x, z) {
   const d = Math.hypot(x, z);
@@ -71,8 +97,12 @@ export function nearestRoad(x, z) {
   return best;
 }
 
+export function waterLevelAt(lake) {
+  return rawHeight(lake.x, lake.z) - lake.depth * 0.45;
+}
+
 export function heightAt(x, z) {
-  let h = rawHeight(x, z);
+  let h = basin(x, z, rawHeight(x, z));
 
   // pads win first: a landmark sits on level ground
   for (const [px, pz, radius, blend] of PADS) {
@@ -242,5 +272,101 @@ export function buildTerrain({ scene, world, groundMaterial, quality }) {
   }
   scene.add(roadGroup);
 
-  return { terrain, roadGroup, heightAt, body };
+  /* --------------------------------------------------------------- water */
+  const waterUpdaters = [];
+  const waterGroup = new THREE.Group();
+  const waterMat = new THREE.MeshStandardMaterial({
+    color: 0x123449,
+    roughness: 0.08,
+    metalness: 0.35,
+    envMapIntensity: 2.4,
+    transparent: true,
+    opacity: 0.88
+  });
+
+  for (const lake of LAKES) {
+    const level = waterLevelAt(lake);
+    const surface = new THREE.Mesh(
+      new THREE.CircleGeometry(1, 64),
+      waterMat
+    );
+    surface.rotation.x = -Math.PI / 2;
+    surface.scale.set(lake.rx * 1.02, lake.rz * 1.02, 1);
+    surface.position.set(lake.x, level, lake.z);
+    waterGroup.add(surface);
+
+    // a slow swell, done on the transform so there is no custom shader to compile
+    waterUpdaters.push(t => {
+      surface.position.y = level + Math.sin(t * 0.7) * 0.05;
+      surface.rotation.z = Math.sin(t * 0.13) * 0.04;
+    });
+
+    // a pale rim so the shoreline reads clearly from the road
+    const rim = new THREE.Mesh(
+      new THREE.RingGeometry(0.985, 1.06, 64),
+      new THREE.MeshBasicMaterial({ color: 0x7fd4e8, transparent: true, opacity: 0.22, side: THREE.DoubleSide })
+    );
+    rim.rotation.x = -Math.PI / 2;
+    rim.scale.set(lake.rx, lake.rz, 1);
+    rim.position.set(lake.x, level + 0.06, lake.z);
+    waterGroup.add(rim);
+  }
+  scene.add(waterGroup);
+
+  /* -------------------------------------------------------------- bridges */
+  const deckMat = new THREE.MeshStandardMaterial({ color: 0x2c3140, roughness: 0.6, metalness: 0.45, envMapIntensity: 1.1 });
+  const railMat = new THREE.MeshStandardMaterial({ color: 0xc6d2e6, roughness: 0.35, metalness: 0.7, envMapIntensity: 1.6 });
+
+  for (const bridge of BRIDGES) {
+    const road = nearestRoad(bridge.x, bridge.z);
+    const deckY = heightOnRoad(road.cx, road.cz);
+    // align the deck with the road, sampled a few metres either side
+    const ahead = nearestRoad(bridge.x + 6, bridge.z + 6);
+    const behind = nearestRoad(bridge.x - 6, bridge.z - 6);
+    const angle = Math.atan2(-(ahead.cz - behind.cz), ahead.cx - behind.cx);
+
+    const group = new THREE.Group();
+    group.position.set(road.cx, deckY, road.cz);
+    group.rotation.y = angle;
+
+    // deck edges either side of the road surface
+    for (const side of [-1, 1]) {
+      const kerb = new THREE.Mesh(new THREE.BoxGeometry(bridge.span, 0.5, 1.1), deckMat);
+      kerb.position.set(0, -0.1, side * (ROAD_WIDTH * 0.5 + 0.45));
+      kerb.castShadow = kerb.receiveShadow = true;
+      group.add(kerb);
+
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(bridge.span, 0.12, 0.12), railMat);
+      rail.position.set(0, 1.1, side * (ROAD_WIDTH * 0.5 + 0.45));
+      group.add(rail);
+
+      const posts = new THREE.InstancedMesh(new THREE.BoxGeometry(0.16, 1.2, 0.16), railMat, 9);
+      const dummy = new THREE.Object3D();
+      for (let i = 0; i < 9; i++) {
+        dummy.position.set(-bridge.span / 2 + (i / 8) * bridge.span, 0.5, side * (ROAD_WIDTH * 0.5 + 0.45));
+        dummy.updateMatrix();
+        posts.setMatrixAt(i, dummy.matrix);
+      }
+      posts.castShadow = true;
+      group.add(posts);
+    }
+
+    // piers dropping into the ravine
+    for (const offset of [-bridge.span * 0.28, bridge.span * 0.28]) {
+      const pier = new THREE.Mesh(new THREE.BoxGeometry(1.8, 16, 3.4), deckMat);
+      pier.position.set(offset, -8.2, 0);
+      pier.castShadow = true;
+      group.add(pier);
+    }
+
+    // underside so the deck is not a floating ribbon
+    const soffit = new THREE.Mesh(new THREE.BoxGeometry(bridge.span, 0.7, ROAD_WIDTH + 1.6), deckMat);
+    soffit.position.y = -0.55;
+    soffit.receiveShadow = true;
+    group.add(soffit);
+
+    scene.add(group);
+  }
+
+  return { terrain, roadGroup, heightAt, body, updaters: waterUpdaters };
 }

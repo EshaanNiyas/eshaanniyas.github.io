@@ -68,5 +68,48 @@ if (!reduceMotion && matchMedia('(pointer: fine)').matches) {
   });
 }
 
+/* ---------- hero parallax ---------- */
+const hero = document.querySelector('.hero');
+if (hero && !reduceMotion) {
+  let ticking = false;
+  const parallax = () => {
+    ticking = false;
+    const shift = Math.min(scrollY, innerHeight) * 0.28;
+    hero.style.setProperty('--parallax', `${shift}px`);
+  };
+  addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(parallax);
+  }, { passive: true });
+  parallax();
+}
+
+/* ---------- playground: loaded only when asked for ---------- */
+const stage = document.getElementById('stage');
+const launch = document.getElementById('launch-play');
+const closeStage = document.getElementById('close-play');
+
+launch?.addEventListener('click', () => {
+  if (stage.querySelector('iframe')) return;
+  const frame = document.createElement('iframe');
+  frame.src = 'play/';
+  frame.title = 'The Build World — interactive 3D playground';
+  frame.allow = 'autoplay; fullscreen';
+  frame.loading = 'lazy';
+  stage.appendChild(frame);
+  stage.classList.add('is-live');
+  closeStage.hidden = false;
+  stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+  // keyboard driving only works once the canvas owns focus
+  frame.addEventListener('load', () => frame.contentWindow?.focus());
+});
+
+closeStage?.addEventListener('click', () => {
+  stage.querySelector('iframe')?.remove();
+  stage.classList.remove('is-live');
+  closeStage.hidden = true;
+});
+
 /* ---------- hero entrance ---------- */
 requestAnimationFrame(() => document.body.classList.add('is-ready'));

@@ -14,7 +14,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="assets/img/eshaan-portrait.jpg" />
   <link rel="stylesheet" href="assets/css/main.css" />
+  <meta property="og:image" content="assets/img/eshaan-portrait.jpg" />
 </head>
 <body>
 
@@ -28,35 +30,59 @@
     </button>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#journey">Journey</a></li>
+      <li><a href="#work">Projects</a></li>
+      <li><a href="#journey">Achievements</a></li>
+      <li><a href="#playground">Playground</a></li>
       <li><a href="#beyond">Beyond</a></li>
       <li><a href="#contact">Contact</a></li>
-      <li><a href="play/">Playground ↗</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
   <header class="hero" id="top">
+    <div class="hero-ambient" aria-hidden="true"></div>
     <canvas id="hero-canvas"></canvas>
-    <div class="hero-inner">
-      <div class="rise"><span class="eyebrow">Academic scholar &amp; young innovator</span></div>
-      <h1 class="display">
-        <span class="line rise"><span style="--delay:80ms">Eshaan</span></span>
-        <span class="line rise"><span style="--delay:180ms">Niyas</span></span>
-      </h1>
-      <div class="rise">
-        <p class="hero-tagline" style="--delay:300ms">Building technology that creates real-world impact.</p>
-      </div>
-      <div class="rise">
-        <div class="hero-actions" style="--delay:400ms">
-          <a class="btn" href="#work">Explore My Work <span class="arrow">→</span></a>
-          <a class="btn btn-ghost" href="play/">Enter the playground</a>
+
+    <div class="hero-grid">
+      <div class="hero-inner">
+        <div class="rise"><span class="eyebrow">Academic scholar &amp; young innovator</span></div>
+        <h1 class="display">
+          <span class="line rise"><span style="--delay:80ms">Eshaan</span></span>
+          <span class="line rise"><span style="--delay:180ms">Niyas</span></span>
+        </h1>
+        <div class="rise">
+          <p class="hero-tagline" style="--delay:300ms">Building technology that creates real-world impact.</p>
+        </div>
+        <div class="rise">
+          <div class="hero-actions" style="--delay:400ms">
+            <a class="btn" href="#work">Explore My Work <span class="arrow">→</span></a>
+            <a class="btn btn-ghost" href="#playground">Enter the playground</a>
+          </div>
+        </div>
+        <div class="rise">
+          <dl class="hero-facts" style="--delay:520ms">
+            <div><dt>Harvard Crimson Global Essay</dt><dd>Winner — MENA &amp; Africa</dd></div>
+            <div><dt>TKS Dubai</dt><dd>Selected, 2026–2027</dd></div>
+            <div><dt>HundrED</dt><dd>Youth Ambassador</dd></div>
+          </dl>
         </div>
       </div>
+
+      <figure class="hero-portrait rise" style="--delay:240ms">
+        <div class="portrait-frame">
+          <img src="assets/img/eshaan-portrait.jpg"
+               srcset="assets/img/eshaan-portrait-sm.jpg 450w, assets/img/eshaan-portrait.jpg 900w"
+               sizes="(max-width: 900px) 90vw, 38vw"
+               width="900" height="1255" alt="Eshaan Niyas speaking on stage" />
+          <span class="portrait-veil" aria-hidden="true"></span>
+          <span class="portrait-sheen" aria-hidden="true"></span>
+        </div>
+        <figcaption>On stage, mid-pitch</figcaption>
+      </figure>
     </div>
+
     <div class="hero-hint" aria-hidden="true">
-      <span>Move · Click · Scroll</span>
+      <span>Scroll</span>
       <span class="track"></span>
     </div>
   </header>
@@ -250,6 +276,38 @@
       </div>
     </section>
 
+    <!-- PLAYGROUND -->
+    <section id="playground" class="playground">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">Interactive</span>
+          <h2 class="display section-title">Drive through the whole story.</h2>
+          <p class="lede">Everything above, rebuilt as a place. Take the car, follow the roads, and each landmark you reach opens the work behind it.</p>
+        </div>
+
+        <div class="stage reveal" id="stage">
+          <div class="stage-poster">
+            <span class="stage-glow" aria-hidden="true"></span>
+            <div class="stage-copy">
+              <h3>The Build World</h3>
+              <p>A drivable valley with eight landmarks — awards, the lab, the pavilion, the amphitheatre, the green field, the observatory and the grounds.</p>
+              <div class="stage-actions">
+                <button class="btn" id="launch-play">Launch the experience <span class="arrow">→</span></button>
+                <a class="btn btn-ghost" href="play/" target="_blank" rel="noopener">Open in a new tab</a>
+              </div>
+              <ul class="stage-keys">
+                <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive</li>
+                <li><kbd>Space</kbd> handbrake</li>
+                <li><kbd>C</kbd> camera</li>
+                <li><kbd>M</kbd> sound</li>
+              </ul>
+            </div>
+          </div>
+          <button class="stage-close" id="close-play" hidden aria-label="Close the playground">Close ✕</button>
+        </div>
+      </div>
+    </section>
+
     <hr class="rule" />
 
     <!-- LEADERSHIP -->
@@ -290,7 +348,7 @@
           <p>Working on something ambitious, or want a second pair of hands on a prototype? I'd like to hear about it.</p>
           <div class="contact-actions">
             <a class="btn" href="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com <span class="arrow">→</span></a>
-            <a class="btn btn-ghost" href="play/">Play with the 3D world</a>
+            <a class="btn btn-ghost" href="#playground">Play with the 3D world</a>
           </div>
           <div class="socials">
             <a href="https://www.linkedin.com/in/eshaanniyas" target="_blank" rel="noopener" aria-label="LinkedIn">

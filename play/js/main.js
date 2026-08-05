@@ -6,7 +6,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-import { buildTerrain, heightAt, ROADS, HALF } from './terrain.js';
+import { buildTerrain, heightAt, ROADS, HALF, LAKES } from './terrain.js';
 import { buildSky } from './sky.js';
 import { buildScatter } from './scatter.js';
 import { buildPlaces } from './places.js';
@@ -111,7 +111,7 @@ async function boot() {
   setProgress('Raising the terrain');
   await frameBreak();
 
-  buildTerrain({ scene, world, groundMaterial, quality });
+  const terrain = buildTerrain({ scene, world, groundMaterial, quality });
   progress.world = 0.35;
   setProgress('Lighting the sky');
   await frameBreak();
@@ -128,7 +128,7 @@ async function boot() {
 
   const built = buildPlaces({ scene, world });
   places = built.places;
-  updaters = [...sky.updaters, ...scatter.updaters, ...built.updaters];
+  updaters = [...sky.updaters, ...scatter.updaters, ...built.updaters, ...terrain.updaters];
   progress.world = 0.92;
   setProgress('Warming up');
   await frameBreak();
@@ -363,15 +363,36 @@ function updateCamera(dt, speed) {
 /* --------------------------------------------------------------- minimap */
 const mapCtx = ui.minimap.getContext('2d');
 const MAP_SIZE = ui.minimap.width;
+const mapTip = document.getElementById('map-tip');
 const toMap = v => (v / (HALF * 2) + 0.5) * MAP_SIZE;
+let mapHover = null;
 
 function drawMinimap() {
   mapCtx.clearRect(0, 0, MAP_SIZE, MAP_SIZE);
-  mapCtx.fillStyle = 'rgba(10,14,26,0.65)';
+
+  // ground, water and the ring of mountains, so the map reads like the world
+  mapCtx.fillStyle = '#182615';
+  mapCtx.fillRect(0, 0, MAP_SIZE, MAP_SIZE);
+  const edge = mapCtx.createRadialGradient(
+    MAP_SIZE / 2, MAP_SIZE / 2, MAP_SIZE * 0.32,
+    MAP_SIZE / 2, MAP_SIZE / 2, MAP_SIZE * 0.52
+  );
+  edge.addColorStop(0, 'rgba(24,38,21,0)');
+  edge.addColorStop(1, 'rgba(80,86,96,0.85)');
+  mapCtx.fillStyle = edge;
   mapCtx.fillRect(0, 0, MAP_SIZE, MAP_SIZE);
 
-  mapCtx.strokeStyle = 'rgba(180,200,240,0.35)';
-  mapCtx.lineWidth = 3;
+  mapCtx.fillStyle = 'rgba(34,120,160,0.75)';
+  for (const lake of LAKES) {
+    mapCtx.beginPath();
+    mapCtx.ellipse(toMap(lake.x), toMap(lake.z),
+      (lake.rx / (HALF * 2)) * MAP_SIZE, (lake.rz / (HALF * 2)) * MAP_SIZE, 0, 0, Math.PI * 2);
+    mapCtx.fill();
+  }
+
+  mapCtx.strokeStyle = 'rgba(226,232,245,0.55)';
+  mapCtx.lineWidth = 4;
+  mapCtx.lineJoin = mapCtx.lineCap = 'round';
   for (const path of ROADS) {
     mapCtx.beginPath();
     path.forEach(([x, z], i) => {
@@ -384,12 +405,24 @@ function drawMinimap() {
 
   for (const place of places) {
     const [x, z] = place.position;
+    const px = toMap(x);
+    const pz = toMap(z);
+    const known = discovered.has(place.id);
+    const hex = `#${place.color.toString(16).padStart(6, '0')}`;
+
+    if (mapHover === place) {
+      mapCtx.beginPath();
+      mapCtx.fillStyle = 'rgba(255,255,255,0.22)';
+      mapCtx.arc(px, pz, 14, 0, Math.PI * 2);
+      mapCtx.fill();
+    }
     mapCtx.beginPath();
-    mapCtx.fillStyle = discovered.has(place.id)
-      ? `#${place.color.toString(16).padStart(6, '0')}`
-      : 'rgba(210,220,245,0.35)';
-    mapCtx.arc(toMap(x), toMap(z), discovered.has(place.id) ? 6 : 4, 0, Math.PI * 2);
+    mapCtx.fillStyle = known ? hex : 'rgba(12,16,26,0.9)';
+    mapCtx.strokeStyle = known ? 'rgba(255,255,255,0.75)' : hex;
+    mapCtx.lineWidth = 2.5;
+    mapCtx.arc(px, pz, known ? 7 : 5.5, 0, Math.PI * 2);
     mapCtx.fill();
+    mapCtx.stroke();
   }
 
   const car = carApi.car;
@@ -411,6 +444,30 @@ function drawMinimap() {
   mapCtx.fill();
   mapCtx.restore();
 }
+
+ui.minimap.addEventListener('pointermove', event => {
+  const rect = ui.minimap.getBoundingClientRect();
+  const mx = ((event.clientX - rect.left) / rect.width) * MAP_SIZE;
+  const my = ((event.clientY - rect.top) / rect.height) * MAP_SIZE;
+
+  let closest = null;
+  let best = 16;
+  for (const place of places) {
+    const distance = Math.hypot(toMap(place.position[0]) - mx, toMap(place.position[1]) - my);
+    if (distance < best) { best = distance; closest = place; }
+  }
+  mapHover = closest;
+  if (closest) {
+    mapTip.textContent = discovered.has(closest.id) ? closest.name : `${closest.name} — undiscovered`;
+    mapTip.classList.add('visible');
+  } else {
+    mapTip.classList.remove('visible');
+  }
+});
+ui.minimap.addEventListener('pointerleave', () => {
+  mapHover = null;
+  mapTip.classList.remove('visible');
+});
 
 /* ------------------------------------------------------------ interaction */
 const raycaster = new THREE.Raycaster();
