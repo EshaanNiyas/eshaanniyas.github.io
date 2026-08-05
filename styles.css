@@ -248,7 +248,7 @@ em { font-style: italic; }
 
 /* ---------- Sections ---------- */
 .section {
-  padding-block: clamp(88px, 14vw, 180px);
+  padding-block: clamp(64px, 8.5vw, 116px);
 }
 .eyebrow {
   font-size: 0.78rem;
@@ -258,7 +258,7 @@ em { font-style: italic; }
   color: var(--gray-400);
   margin-bottom: 28px;
 }
-.section-head { margin-bottom: clamp(48px, 7vw, 90px); }
+.section-head { margin-bottom: clamp(40px, 5vw, 64px); }
 .section-title {
   font-family: var(--serif);
   font-weight: 500;
@@ -419,31 +419,60 @@ em { font-style: italic; }
   font-size: clamp(2.4rem, 8vw, 5rem);
   line-height: 1.02;
   letter-spacing: -0.025em;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+}
+.contact-lead {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--gray-400);
+  max-width: 44ch;
+  margin: 0 auto 40px;
 }
 .contact-email {
   display: inline-block;
-  font-size: clamp(1.15rem, 3vw, 1.6rem);
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
   font-weight: 400;
   color: var(--white);
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
   transition: border-color 0.3s var(--ease), opacity 0.3s var(--ease);
 }
 .contact-email:hover { border-color: var(--white); opacity: 0.85; }
-.contact-meta {
-  margin-top: 44px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  font-size: 0.92rem;
-  color: var(--gray-400);
+
+/* Structured links */
+.contact-links {
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  max-width: 720px;
+  margin-inline: auto;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  overflow: hidden;
 }
-.contact-meta a { transition: color 0.3s var(--ease); }
-.contact-meta a:hover { color: var(--white); }
-.contact-meta .dot { color: var(--gray-700); }
+.contact-links > * {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 26px 20px;
+  background: var(--ink);
+  text-align: center;
+  transition: background 0.3s var(--ease);
+}
+.contact-links a:hover { background: #151517; }
+.cl-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+.cl-handle {
+  font-size: 0.98rem;
+  color: var(--white);
+}
+.contact-loc .cl-handle { color: var(--gray-300); }
 
 /* ---------- Footer ---------- */
 .footer {
@@ -462,18 +491,22 @@ em { font-style: italic; }
 .footer-top { transition: color 0.3s var(--ease); }
 .footer-top:hover { color: var(--white); }
 
-/* ---------- Reveal on scroll ---------- */
+/* ---------- Reveal on scroll (varied) ---------- */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transition: opacity 0.8s var(--ease), transform 0.9s var(--ease), filter 0.9s var(--ease);
+  transition-delay: var(--d, 0s);
 }
+.reveal.r-up    { transform: translateY(30px); }
+.reveal.r-left  { transform: translateX(-36px); }
+.reveal.r-right { transform: translateX(36px); }
+.reveal.r-scale { transform: scale(0.94); }
+.reveal.r-blur  { transform: translateY(16px); filter: blur(10px); }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  filter: none;
 }
-/* stagger children within a list */
-.project.reveal, .ach.reveal, .tl.reveal { transition-delay: var(--d, 0s); }
 
 /* ---------- Keyframes ---------- */
 @keyframes rise {
@@ -505,6 +538,7 @@ em { font-style: italic; }
   .project:hover { padding-left: 8px; }
   .ach-grid { grid-template-columns: 1fr; }
   .nav-cta { display: none; }
+  .contact-links { grid-template-columns: 1fr; }
 }
 
 /* ---------- Motion / a11y preferences ---------- */
@@ -515,7 +549,7 @@ em { font-style: italic; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  .reveal { opacity: 1; transform: none; }
+  .reveal { opacity: 1; transform: none; filter: none; }
   .hero-title, .hero-sub, .hero-content .btn { opacity: 1; transform: none; }
 }
 
