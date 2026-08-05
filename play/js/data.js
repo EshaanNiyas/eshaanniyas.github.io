@@ -1,4 +1,5 @@
-// Everything the world is built from: districts, milestones, colours.
+// Everything in the world is driven from here: places to discover, their real
+// content, and the palette. No invented achievements.
 
 export const PALETTE = {
   indigo: 0x6366f1,
@@ -6,64 +7,140 @@ export const PALETTE = {
   amber: 0xf97316,
   green: 0x34d399,
   violet: 0xa855f7,
-  ground: 0x0e1220,
-  road: 0x1e2745
+  gold: 0xfacc15
 };
 
-export const DISTRICTS = [
+// position is [x, z]; the terrain flattens a pad under each of these.
+export const PLACES = [
   {
-    id: 'engineering',
-    name: 'Engineering',
-    kind: 'rig',
-    position: [-62, 0, -46],
-    color: PALETTE.amber,
-    blurb: 'Structures, mechanisms and hardware — built, broken, measured and rebuilt.'
+    id: 'hub',
+    kind: 'hub',
+    name: 'Eshaan Niyas',
+    meta: 'Academic scholar & young innovator',
+    position: [0, 0],
+    radius: 26,
+    color: PALETTE.cyan,
+    blurb: 'Student engineer, AI builder, entrepreneur and problem solver. Follow a road — every one leads somewhere I have been.',
+    items: []
   },
   {
-    id: 'ai',
-    name: 'AI & Software',
-    kind: 'core',
-    position: [64, 0, -44],
+    id: 'awards',
+    kind: 'monument',
+    name: 'The Monument',
+    meta: 'Writing & major awards',
+    position: [-96, -104],
+    radius: 24,
+    color: PALETTE.gold,
+    blurb: 'Essays and stories that travelled further than expected.',
+    items: [
+      { title: 'Harvard Crimson Global Essay Competition', meta: 'Winner — MENA & Africa' },
+      { title: 'Lumiere Scholars Essay Award 2025', meta: 'Essay award recipient' },
+      { title: 'HUSKO Asia Student Essay Competition 2026', meta: 'Top winner' },
+      { title: 'Emarat Beats', meta: 'Published short story' }
+    ]
+  },
+  {
+    id: 'lab',
+    kind: 'lab',
+    name: 'The Lab',
+    meta: 'AI, software & engineering',
+    position: [116, -74],
+    radius: 24,
     color: PALETTE.indigo,
-    blurb: 'Models, code and tools — the part of the world that thinks.'
+    blurb: 'Where the building happens: AI and software projects, engineering builds, and the websites and tools in between.',
+    items: [
+      { title: 'AI & software development', meta: 'Models, tools and applications' },
+      { title: 'Engineering projects', meta: 'Hardware, structures and mechanisms' },
+      { title: 'Web development & coding', meta: 'Sites, interfaces and experiments' }
+    ]
   },
   {
-    id: 'sustainability',
-    name: 'Sustainability',
-    kind: 'grove',
-    position: [-60, 0, 52],
-    color: PALETTE.green,
-    blurb: 'Turbines, panels and green systems: engineering pointed at the planet.'
-  },
-  {
-    id: 'innovation',
-    name: 'Innovation',
-    kind: 'arch',
-    position: [62, 0, 54],
+    id: 'pavilion',
+    kind: 'pavilion',
+    name: 'The Pavilion',
+    meta: 'Innovation & entrepreneurship',
+    position: [128, 36],
+    radius: 22,
     color: PALETTE.violet,
-    blurb: 'Competitions, pitches and prototypes made under pressure.'
+    blurb: 'Competitions, pitches and programmes — ideas built under pressure.',
+    items: [
+      { title: 'Tortoise Tank Innovation Competition', meta: 'Winning idea' },
+      { title: 'Pepsi Youth Hackathon', meta: 'Participant' },
+      { title: 'The Knowledge Society (TKS) Dubai', meta: 'Selected participant, 2026–2027' },
+      { title: 'IITM Pravartak Entrepreneurship Program', meta: 'Programme completed' }
+    ]
+  },
+  {
+    id: 'stage',
+    kind: 'stage',
+    name: 'The Amphitheatre',
+    meta: 'Voice & leadership',
+    position: [56, 118],
+    radius: 24,
+    color: PALETTE.amber,
+    blurb: 'Committees, councils and the work of speaking for other people.',
+    items: [
+      { title: 'Model United Nations', meta: 'UNHCR committee — delegate for Mexico' },
+      { title: 'Student Council', meta: 'Elected representative' },
+      { title: 'HundrED Youth Ambassador', meta: 'Selected youth ambassador' }
+    ]
+  },
+  {
+    id: 'green',
+    kind: 'field',
+    name: 'The Green Field',
+    meta: 'Sustainability',
+    position: [-64, 122],
+    radius: 22,
+    color: PALETTE.green,
+    blurb: 'Engineering pointed at the planet — turbines, panels and circular systems.',
+    items: [
+      { title: 'Yalla Returns Ambassador', meta: 'Sustainability initiative' },
+      { title: 'Sustainability engineering projects', meta: 'Energy and waste-focused builds' }
+    ]
+  },
+  {
+    id: 'observatory',
+    kind: 'observatory',
+    name: 'The Observatory',
+    meta: 'Science & curiosity',
+    position: [-130, 34],
+    radius: 20,
+    color: PALETTE.cyan,
+    blurb: 'The part of the map that just wants to know how things work.',
+    items: [
+      { title: 'NYU Abu Dhabi Astronomy Camp', meta: 'Selected participant' },
+      { title: 'Math Olympiad', meta: 'Olympiad participation' }
+    ]
+  },
+  {
+    id: 'grounds',
+    kind: 'athletics',
+    name: 'The Grounds',
+    meta: 'Sport & school competition',
+    position: [-40, -118],
+    radius: 20,
+    color: PALETTE.amber,
+    blurb: 'Seasons of it: rugby, football, basketball, and the inter-school circuit.',
+    items: [
+      { title: 'Rugby · Football · Basketball', meta: 'School team achievements' },
+      { title: 'ADISSA · BSME · DASSA', meta: 'Inter-school competitions' }
+    ]
   }
 ];
 
-// Milestones ring the central plaza — drive into one (or click it) to read it.
-export const MILESTONES = [
-  { id: 'harvard', title: 'Harvard Crimson Global Essay Competition', meta: 'Winner — MENA & Africa', color: PALETTE.amber },
-  { id: 'lumiere', title: 'Lumiere Scholars Essay Award 2025', meta: 'Essay Award recipient', color: PALETTE.amber },
-  { id: 'husko', title: 'HUSKO Asia Student Essay Competition 2026', meta: 'Top winner', color: PALETTE.amber },
-  { id: 'hundred', title: 'HundrED Youth Ambassador', meta: 'Selected youth ambassador', color: PALETTE.cyan },
-  { id: 'tks', title: 'The Knowledge Society — Dubai', meta: 'Selected participant, 2026–2027', color: PALETTE.indigo },
-  { id: 'pravartak', title: 'IITM Pravartak Entrepreneurship Program', meta: 'Program completed', color: PALETTE.indigo },
-  { id: 'tortoise', title: 'Tortoise Tank Innovation Competition', meta: 'Winning idea', color: PALETTE.violet },
-  { id: 'pepsi', title: 'Pepsi Youth Hackathon', meta: 'Participant', color: PALETTE.violet },
-  { id: 'nyuad', title: 'NYU Abu Dhabi Astronomy Camp', meta: 'Selected participant', color: PALETTE.cyan },
-  { id: 'yalla', title: 'Yalla Returns Ambassador', meta: 'Sustainability initiative', color: PALETTE.green },
-  { id: 'emarat', title: 'Emarat Beats', meta: 'Published short story', color: PALETTE.amber },
-  { id: 'matholympiad', title: 'Math Olympiad', meta: 'Olympiad participation', color: PALETTE.cyan }
+// Roadside holograms: short lines you read while driving past.
+export const SIGNS = [
+  { position: [-52, -62], rotation: 0.9, text: 'The Monument →' },
+  { position: [62, -78], rotation: -0.9, text: 'The Lab →' },
+  { position: [96, 26], rotation: -1.6, text: 'The Pavilion →' },
+  { position: [40, 82], rotation: 2.6, text: 'The Amphitheatre →' },
+  { position: [-46, 86], rotation: -2.6, text: 'The Green Field →' },
+  { position: [-88, 6], rotation: 1.6, text: 'The Observatory →' }
 ];
 
-export const LEADERSHIP = [
-  'Model United Nations — UNHCR, delegate for Mexico',
-  'Student Council',
-  'ADISSA · BSME · DASSA competitions',
-  'Rugby · Football · Basketball'
-];
+export const CONTACT = {
+  email: 'niyaseshaan@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/eshaanniyas',
+  medium: 'https://medium.com/@niyaseshaan'
+};
