@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Eshaan Niyas</title>
-  <link href__="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -94,6 +94,19 @@
       transform: translateY(-4px);
       box-shadow: 0 16px 48px rgba(255,107,107,0.4);
       background: linear-gradient(135deg, #ff5252, #ff7043);
+    }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;
+    }
+    .hero-btn-alt {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.35);
+      box-shadow: none;
+      backdrop-filter: blur(12px);
+    }
+    .hero-btn-alt:hover {
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 16px 48px rgba(255,255,255,0.15);
     }
     .scroll-down {
       position: absolute; bottom: 40px; left: 50%;
@@ -186,11 +199,12 @@
 
   <!-- NAVIGATION -->
   <nav id="navbar">
-    <a href__="#home" class="nav-logo">eshaanniyas</a>
+    <a href="#home" class="nav-logo">eshaanniyas</a>
     <ul class="nav-links">
-      <li><a href__="#home">Home</a></li>
-      <li><a href__="#about">About</a></li>
-      <li><a href__="#contact">Contact</a></li>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="play/">Playground</a></li>
     </ul>
   </nav>
 
@@ -200,7 +214,10 @@
     <div class="hero-content">
       <h1>Eshaan Niyas</h1>
       <p>Academic Scholar &amp; Young Innovator</p>
-      <a href__="mailto:niyaseshaan@gmail.com" class="hero-btn">Let's Connect</a>
+      <div class="hero-actions">
+        <a href="mailto:niyaseshaan@gmail.com" class="hero-btn">Let's Connect</a>
+        <a href="play/" class="hero-btn hero-btn-alt">Enter the 3D Playground</a>
+      </div>
     </div>
     <button class="scroll-down" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -233,21 +250,21 @@
 
       <div class="social-links">
         <!-- LinkedIn -->
-        <a href__="https://www.linkedin.com/in/eshaanniyas" target="_blank" class="social-link" title="LinkedIn">
+        <a href="https://www.linkedin.com/in/eshaanniyas" target="_blank" class="social-link" title="LinkedIn">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
             <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
           </svg>
         </a>
         <!-- Email -->
-        <a href__="mailto:niyaseshaan@gmail.com" class="social-link" title="Email">
+        <a href="mailto:niyaseshaan@gmail.com" class="social-link" title="Email">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
             <polyline points="22,6 12,13 2,6"/>
           </svg>
         </a>
         <!-- Medium -->
-        <a href__="https://medium.com/@niyaseshaan" target="_blank" class="social-link" title="Medium">
+        <a href="https://medium.com/@niyaseshaan" target="_blank" class="social-link" title="Medium">
           <svg viewBox="0 0 24 24" fill="currentColor" style="width:24px;height:24px;">
             <path d="M5.79,3.37A6.47,6.47,0,0,0,3.32,3.24L3.25,3.22C1.61,3.46,1,4.48,1,6.13V17.87c0,1.65.61,2.67,2.25,2.91l.07,0a6.47,6.47,0,0,0,2.47-.13l.05,0c1-.26,1.48-1,1.48-2.3V6.67C7.27,5.4,6.76,4.64,5.84,4.35l-.05,0ZM16.33,3.22c-2.45,0-3.32.93-3.32,3.37V17.41c0,2.45.87,3.37,3.32,3.37s3.32-.93,3.32-3.37V6.59C19.65,4.15,18.78,3.22,16.33,3.22ZM23,5.15c0-1.09-.2-1.78-1.53-1.78s-1.53.69-1.53,1.78v13.7c0,1.09.2,1.78,1.53,1.78s1.53-.69,1.53-1.78V5.15Z"/>
           </svg>
@@ -260,7 +277,7 @@
   <footer id="contact">
     <div style="max-width:700px;margin:0 auto;">
       <p>Let's connect</p>
-      <p style="font-weight:400;color:#cbd5e0;">Email: <a href__="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a></p>
+      <p style="font-weight:400;color:#cbd5e0;">Email: <a href="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a></p>
       <p class="footer-copy">© 2025 Eshaan Niyas. Crafted with passion for innovation.</p>
     </div>
   </footer>
