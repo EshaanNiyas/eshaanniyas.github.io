@@ -80,7 +80,7 @@ world.addContactMaterial(new CANNON.ContactMaterial(groundMaterial, groundMateri
 }));
 
 /* ----------------------------------------------------------------- build */
-const { updaters, interactives, boostPads, knockables } = buildWorld({ scene, world, groundMaterial, quality });
+const { updaters, interactives, boostPads, knockables, RADIUS } = buildWorld({ scene, world, groundMaterial, quality });
 const { vehicle, chassisBody, car, wheelMeshes, reset, underglow } = createVehicle({ scene, world, groundMaterial });
 
 ui.total.textContent = String(MILESTONES.length);
@@ -217,6 +217,34 @@ function applyControls(dt) {
   for (let i = 0; i < 4; i++) vehicle.setBrake(brake, i);
 }
 
+/* --------------------------------------------------------------- unstick */
+// The chassis can end up belly-down with every wheel unloaded, where engine
+// force does nothing. Lift it back onto its wheels instead of stranding you.
+let beached = 0;
+const upAxis = new THREE.Vector3();
+function unstick(dt) {
+  // resting ride height is ~0.8; below that the body itself is on the ground
+  const sunk = chassisBody.position.y < 0.62;
+  const tipped = upAxis.set(0, 1, 0).applyQuaternion(car.quaternion).y < 0.65;
+  const stalled = chassisBody.velocity.length() < 0.6;
+  const trying = keys.forward || keys.back;
+
+  beached = (sunk || tipped) && stalled ? beached + dt : 0;
+  if (beached < (trying ? 0.8 : 2.5)) return;
+
+  beached = 0;
+  chassisBody.position.y += 0.7;
+  chassisBody.velocity.setZero();
+  chassisBody.angularVelocity.setZero();
+  // level the car, keeping the direction it was facing
+  const heading = Math.atan2(
+    2 * (chassisBody.quaternion.w * chassisBody.quaternion.y + chassisBody.quaternion.x * chassisBody.quaternion.z),
+    1 - 2 * (chassisBody.quaternion.y ** 2 + chassisBody.quaternion.z ** 2)
+  );
+  chassisBody.quaternion.setFromEuler(0, heading, 0);
+  chassisBody.wakeUp();
+}
+
 /* ---------------------------------------------------------------- camera */
 const camPos = new THREE.Vector3(0, 60, 120);
 const camLook = new THREE.Vector3();
@@ -274,6 +302,11 @@ function frame() {
   }
   for (const item of knockables) syncMesh(item.mesh, item.body);
   if (chassisBody.position.y < -10) reset();
+  if (Math.hypot(chassisBody.position.x, chassisBody.position.z) > RADIUS + 6) {
+    reset();
+    toast('Out of bounds — back to the plaza');
+  }
+  unstick(dt);
 
   const speed = chassisBody.velocity.length();
   ui.speed.textContent = String(Math.round(speed * 3.6));
