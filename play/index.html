@@ -478,13 +478,13 @@
       chassisBody.quaternion.set(0, 0, 0, 1);
     }
 
-    const MAX_FORCE = 450;
+    const MAX_FORCE = 750;
     const MAX_SPEED = 22;
     const MAX_STEER = 0.5;
     let steer = 0;
 
     function applyControls(dt) {
-      const target = (keys.left ? MAX_STEER : 0) + (keys.right ? -MAX_STEER : 0);
+      const target = (keys.left ? -MAX_STEER : 0) + (keys.right ? MAX_STEER : 0);
       steer += (target - steer) * Math.min(1, dt * 8);
       vehicle.setSteeringValue(steer, 0);
       vehicle.setSteeringValue(steer, 1);
