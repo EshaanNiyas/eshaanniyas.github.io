@@ -3,141 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Eshaan Niyas — Drive</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <title>Eshaan Niyas — The Build World</title>
+  <meta name="description" content="An interactive 3D world of Eshaan Niyas's engineering, AI, sustainability and innovation work." />
+  <meta name="theme-color" content="#05060a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --text: #f4f6fb;
+      --muted: rgba(244, 246, 251, 0.6);
+      --faint: rgba(244, 246, 251, 0.36);
+      --line: rgba(255, 255, 255, 0.1);
+      --glass: rgba(9, 12, 20, 0.55);
+      --accent: #22d3ee;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; background: #10131a; }
-    body { font-family: 'Inter', sans-serif; color: #fff; -webkit-font-smoothing: antialiased; touch-action: none; }
+    html, body { height: 100%; overflow: hidden; background: #05060a; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text); -webkit-font-smoothing: antialiased; touch-action: none;
+    }
     canvas { display: block; }
 
+    .glass {
+      border: 1px solid var(--line); border-radius: 18px;
+      background: var(--glass);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+    }
+
+    /* loader */
     #loader {
       position: fixed; inset: 0; z-index: 100;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
-      background: linear-gradient(135deg, #10131a, #1a202c);
-      transition: opacity 0.6s ease;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+      background: radial-gradient(60% 60% at 50% 40%, #111a3a, #05060a 70%);
+      transition: opacity 0.8s var(--ease);
     }
     #loader.hidden { opacity: 0; pointer-events: none; }
-    #loader h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 6vw, 3.2rem); }
-    #loader p { color: rgba(255,255,255,0.6); font-size: 0.95rem; letter-spacing: 0.05em; }
-    .bar { width: min(280px, 60vw); height: 3px; border-radius: 99px; background: rgba(255,255,255,0.12); overflow: hidden; }
-    .bar span { display: block; height: 100%; width: 30%; border-radius: 99px;
-      background: linear-gradient(90deg, #6366f1, #9333ea); animation: slide 1.2s ease-in-out infinite; }
-    @keyframes slide { 0% { margin-left: -30%; } 100% { margin-left: 100%; } }
+    #loader h1 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(2.4rem, 7vw, 4rem); letter-spacing: -0.02em; }
+    #loader p { color: var(--faint); font-size: 0.78rem; letter-spacing: 0.24em; text-transform: uppercase; }
+    .bar { width: min(300px, 62vw); height: 2px; border-radius: 99px; background: rgba(255,255,255,0.12); overflow: hidden; }
+    .bar span { display: block; height: 100%; width: 34%; border-radius: 99px;
+      background: linear-gradient(90deg, #6366f1, #22d3ee); animation: slide 1.3s var(--ease) infinite; }
+    @keyframes slide { 0% { margin-left: -34%; } 100% { margin-left: 100%; } }
 
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 32px; border: none; border-radius: 999px; cursor: pointer;
-      font-family: inherit; font-weight: 600; font-size: 1rem; color: #fff; text-decoration: none;
-      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-      box-shadow: 0 8px 32px rgba(255,107,107,0.3);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-    .btn:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(255,107,107,0.4); }
-    .btn.ghost { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); box-shadow: none; }
-
+    /* hud */
     #hud {
-      position: fixed; top: 20px; left: 20px; z-index: 20;
-      display: flex; flex-direction: column; gap: 10px; max-width: 320px;
-      opacity: 0; transition: opacity 0.6s ease;
+      position: fixed; inset: 20px 20px auto 20px; z-index: 20;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+      opacity: 0; transition: opacity 0.9s var(--ease); pointer-events: none;
     }
     #hud.visible { opacity: 1; }
-    .card {
-      padding: 14px 18px; border-radius: 16px;
-      background: rgba(16,19,26,0.55); backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.12);
+    #hud > * { pointer-events: auto; }
+    .hud-left { display: flex; flex-direction: column; gap: 10px; max-width: 320px; }
+    .card { padding: 14px 18px; }
+    .card h2 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 1.3rem; letter-spacing: -0.01em; }
+    .card small { display: block; margin-top: 3px; font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); }
+    #keys { font-size: 0.76rem; color: var(--muted); line-height: 1.9; }
+    kbd {
+      display: inline-block; min-width: 20px; padding: 1px 6px; margin-right: 2px; text-align: center;
+      border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,0.07);
+      font-family: inherit; font-size: 0.7rem;
     }
-    .card h2 { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600; }
-    .card small { display: block; margin-top: 4px; color: rgba(255,255,255,0.55); font-size: 0.78rem; letter-spacing: 0.06em; }
-    #hint { font-size: 0.8rem; color: rgba(255,255,255,0.7); line-height: 1.7; }
-    #hint kbd {
-      display: inline-block; min-width: 22px; padding: 1px 6px; text-align: center;
-      border-radius: 5px; border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.08); font-family: inherit; font-size: 0.72rem;
-    }
+    .hud-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 600; color: var(--text); text-decoration: none; }
+    .stat { padding: 14px 18px; min-width: 168px; }
+    .stat .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .stat .value { font-family: 'Instrument Serif', serif; font-size: 1.9rem; line-height: 1; }
+    .stat .unit, .stat .label { font-size: 0.64rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); }
+    .track { margin-top: 12px; height: 3px; border-radius: 99px; background: rgba(255,255,255,0.1); overflow: hidden; }
+    .track span { display: block; height: 100%; width: 0%; border-radius: 99px;
+      background: linear-gradient(90deg, #6366f1, #22d3ee); transition: width 0.5s var(--ease); }
 
-    #back { position: fixed; top: 20px; right: 20px; z-index: 20; padding: 10px 20px; font-size: 0.85rem; }
-
+    /* panel */
     #panel {
-      position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 24px);
-      z-index: 25; width: min(560px, calc(100vw - 40px));
-      padding: 24px 28px; border-radius: 20px;
-      background: rgba(16,19,26,0.72); backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.14);
+      position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, 20px);
+      z-index: 25; width: min(620px, calc(100vw - 40px)); padding: 24px 28px;
+      border: 1px solid var(--line); border-radius: 22px;
+      background: var(--glass); backdrop-filter: blur(22px) saturate(150%);
       opacity: 0; pointer-events: none;
-      transition: opacity 0.35s ease, transform 0.35s ease;
+      transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
     }
-    #panel.visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
-    #panel h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 10px; }
-    #panel p { font-size: 0.92rem; line-height: 1.75; color: rgba(255,255,255,0.82); }
-    #panel ul { margin-top: 8px; padding-left: 18px; font-size: 0.92rem; line-height: 1.8; color: rgba(255,255,255,0.82); }
-    #panel a { color: #90cdf4; text-decoration: none; }
-    #panel a:hover { text-decoration: underline; }
+    #panel.visible { opacity: 1; transform: translate(-50%, 0); }
+    #panel .panel-meta { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+    #panel h3 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(1.4rem, 3vw, 1.9rem); margin-top: 8px; letter-spacing: -0.01em; }
+    #panel p { margin-top: 10px; font-size: 0.92rem; line-height: 1.7; color: var(--muted); }
 
+    /* toast */
+    #toast {
+      position: fixed; left: 50%; top: 92px; transform: translate(-50%, -8px);
+      z-index: 30; padding: 10px 20px; border-radius: 999px;
+      border: 1px solid var(--line); background: var(--glass); backdrop-filter: blur(18px);
+      font-size: 0.8rem; letter-spacing: 0.01em;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+    }
+    #toast.visible { opacity: 1; transform: translate(-50%, 0); }
+
+    /* touch controls */
     #touch { position: fixed; inset: auto 0 0 0; z-index: 22; display: none;
-      justify-content: space-between; padding: 0 24px 28px; pointer-events: none; }
+      justify-content: space-between; padding: 0 22px 26px; pointer-events: none; }
     #touch .pad { display: flex; gap: 12px; pointer-events: auto; }
     #touch button {
-      width: 62px; height: 62px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.18); background: rgba(16,19,26,0.6);
-      backdrop-filter: blur(12px); color: #fff; font-size: 1.3rem; cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 1px solid var(--line); background: var(--glass); backdrop-filter: blur(14px);
+      color: var(--text); font-size: 1.3rem; cursor: pointer; -webkit-tap-highlight-color: transparent;
     }
-    #touch button:active { background: rgba(99,102,241,0.6); }
+    #touch button:active { background: rgba(99, 102, 241, 0.55); }
     body.touch #touch { display: flex; }
-    body.touch #hint { display: none; }
+    body.touch #keys { display: none; }
+    body.touch #panel { bottom: 112px; }
 
+    /* fallback */
     #fallback { position: fixed; inset: 0; z-index: 200; display: none;
-      flex-direction: column; align-items: center; justify-content: center; gap: 20px;
-      text-align: center; padding: 32px; background: linear-gradient(135deg, #10131a, #1a202c); }
-    #fallback p { max-width: 420px; color: rgba(255,255,255,0.7); line-height: 1.8; }
+      flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+      text-align: center; padding: 32px; background: radial-gradient(60% 60% at 50% 40%, #111a3a, #05060a 70%); }
+    #fallback h1 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 2.2rem; }
+    #fallback p { max-width: 420px; color: var(--muted); line-height: 1.8; font-size: 0.95rem; }
     body.fallback #fallback { display: flex; }
 
-    @media (max-width: 640px) {
-      #hud { max-width: 60vw; top: 14px; left: 14px; }
-      #back { top: 14px; right: 14px; }
-      #panel { bottom: 108px; padding: 18px 20px; }
+    @media (max-width: 720px) {
+      #hud { inset: 14px 14px auto 14px; }
+      .hud-left { max-width: 54vw; }
+      .stat { min-width: 132px; }
+      #keys { display: none; }
     }
   </style>
 </head>
 <body>
 
   <div id="loader">
-    <h1>Eshaan Niyas</h1>
-    <p>Loading the playground…</p>
+    <h1>The Build World</h1>
+    <p>Assembling the world</p>
     <div class="bar"><span></span></div>
   </div>
 
   <div id="hud">
-    <div class="card">
-      <h2>Eshaan Niyas</h2>
-      <small>DRIVE AROUND TO EXPLORE</small>
+    <div class="hud-left">
+      <div class="card glass">
+        <h2>Eshaan Niyas</h2>
+        <small>Engineering · AI · Sustainability · Innovation</small>
+      </div>
+      <div class="card glass" id="keys">
+        <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive &nbsp;·&nbsp; <kbd>Space</kbd> brake<br />
+        <kbd>R</kbd> reset &nbsp;·&nbsp; <kbd>C</kbd> cinematic camera &nbsp;·&nbsp; hover + click objects
+      </div>
     </div>
-    <div class="card" id="hint">
-      <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrows to drive<br />
-      <kbd>Space</kbd> brake &nbsp;·&nbsp; <kbd>R</kbd> reset
+    <div class="hud-right">
+      <a class="pill glass" href="../">← Back to site</a>
+      <div class="stat glass">
+        <div class="row">
+          <span class="value" id="speed">0</span>
+          <span class="unit">km/h</span>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <span class="label">Milestones</span>
+          <span class="label"><span id="found">0</span>/<span id="total">12</span></span>
+        </div>
+        <div class="track"><span id="progress-bar"></span></div>
+      </div>
     </div>
   </div>
 
-  <a href="../" class="btn ghost" id="back">← Back to site</a>
-
   <div id="panel"></div>
+  <div id="toast"></div>
 
   <div id="touch">
     <div class="pad">
-      <button data-key="left" aria-label="Left">◀</button>
-      <button data-key="right" aria-label="Right">▶</button>
+      <button data-key="left" aria-label="Steer left">◀</button>
+      <button data-key="right" aria-label="Steer right">▶</button>
     </div>
     <div class="pad">
       <button data-key="back" aria-label="Reverse">▼</button>
-      <button data-key="forward" aria-label="Forward">▲</button>
+      <button data-key="forward" aria-label="Accelerate">▲</button>
     </div>
   </div>
 
   <div id="fallback">
-    <h1 style="font-family:'Playfair Display',serif;font-size:2rem;">3D not supported</h1>
-    <p>Your browser or device can't run WebGL, so the interactive playground won't load. The classic portfolio has everything you need.</p>
-    <a class="btn" href="../">Back to the main site</a>
+    <h1>3D not supported</h1>
+    <p>This browser or device can't run WebGL, so the interactive world won't load. Everything it contains is on the main site too.</p>
+    <a class="pill glass" href="../" style="padding:14px 26px">← Back to site</a>
   </div>
 
   <script type="importmap">
@@ -149,423 +197,24 @@
     }
   }
   </script>
-
   <script type="module">
-    import * as THREE from 'three';
-    import * as CANNON from 'cannon-es';
-
-    const loaderEl = document.getElementById('loader');
-    const hudEl = document.getElementById('hud');
-    const panelEl = document.getElementById('panel');
-
-    // ---------- capability check ----------
-    function webglAvailable() {
+    const supportsWebGL = (() => {
       try {
-        const c = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
-      } catch (e) { return false; }
-    }
-    if (!webglAvailable()) {
+        const test = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && (test.getContext('webgl2') || test.getContext('webgl')));
+      } catch (err) { return false; }
+    })();
+
+    if (!supportsWebGL) {
       document.body.classList.add('fallback');
-      loaderEl.classList.add('hidden');
-      throw new Error('WebGL unavailable');
-    }
-    if (window.matchMedia('(pointer: coarse)').matches) document.body.classList.add('touch');
-
-    // ---------- content ----------
-    const ZONES = [
-      {
-        id: 'about', position: [0, 0, -26], color: 0x6366f1, label: 'ABOUT',
-        html: `<h3>About Me</h3>
-          <p>Academic scholar and young innovator at Arcadia British School. I thrive on challenges
-          that test both mind and body — from representing my school at ADISSA sports events to
-          placing in STEM competitions and winning entrepreneurial challenges.</p>`
-      },
-      {
-        id: 'work', position: [-30, 0, 12], color: 0xff8e53, label: 'HIGHLIGHTS',
-        html: `<h3>Highlights</h3>
-          <ul>
-            <li>ADISSA school representative — athletics</li>
-            <li>STEM competition placements</li>
-            <li>Entrepreneurial challenge winner</li>
-            <li>Volunteering, coaching &amp; published writing</li>
-          </ul>`
-      },
-      {
-        id: 'contact', position: [30, 0, 12], color: 0x38b2ac, label: 'CONTACT',
-        html: `<h3>Let's Connect</h3>
-          <p>
-            <a href="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a><br />
-            <a href="https://www.linkedin.com/in/eshaanniyas" target="_blank" rel="noopener">LinkedIn</a> ·
-            <a href="https://medium.com/@niyaseshaan" target="_blank" rel="noopener">Medium</a>
-          </p>`
-      }
-    ];
-
-    // ---------- three.js ----------
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x10131a);
-    scene.fog = new THREE.Fog(0x10131a, 60, 150);
-
-    const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 400);
-    camera.position.set(0, 12, 20);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(innerWidth, innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    document.body.appendChild(renderer.domElement);
-
-    scene.add(new THREE.HemisphereLight(0xa5b4fc, 0x1a202c, 0.7));
-    const sun = new THREE.DirectionalLight(0xffffff, 2.0);
-    sun.position.set(30, 50, 20);
-    sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
-    const s = 70;
-    Object.assign(sun.shadow.camera, { left: -s, right: s, top: s, bottom: -s, near: 1, far: 160 });
-    sun.shadow.camera.updateProjectionMatrix();
-    scene.add(sun);
-
-    // ---------- physics ----------
-    const world = new CANNON.World({ gravity: new CANNON.Vec3(0, -20, 0) });
-    world.broadphase = new CANNON.SAPBroadphase(world);
-    world.allowSleep = true;
-    world.defaultContactMaterial.friction = 0.5;
-
-    const groundMat = new CANNON.Material('ground');
-    world.addContactMaterial(new CANNON.ContactMaterial(groundMat, groundMat, {
-      friction: 0.4, restitution: 0
-    }));
-
-    const ARENA = 60;
-
-    // a thick box rather than a plane: RaycastVehicle wheel rays hit boxes reliably
-    const groundBody = new CANNON.Body({
-      mass: 0,
-      shape: new CANNON.Box(new CANNON.Vec3(ARENA, 1, ARENA)),
-      material: groundMat
-    });
-    groundBody.position.set(0, -1, 0);
-    world.addBody(groundBody);
-
-    const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(ARENA * 2, ARENA * 2),
-      new THREE.MeshStandardMaterial({ color: 0x1c2130, roughness: 0.95, metalness: 0 })
-    );
-    ground.rotation.x = -Math.PI / 2;
-    ground.receiveShadow = true;
-    scene.add(ground);
-
-    const grid = new THREE.GridHelper(ARENA * 2, 48, 0x3b4363, 0x262c40);
-    grid.position.y = 0.02;
-    scene.add(grid);
-
-    // arena walls
-    const wallMatMesh = new THREE.MeshStandardMaterial({ color: 0x2b3350, roughness: 0.8 });
-    for (const [x, z, w, d] of [[0, -ARENA, ARENA * 2, 1], [0, ARENA, ARENA * 2, 1], [-ARENA, 0, 1, ARENA * 2], [ARENA, 0, 1, ARENA * 2]]) {
-      const wall = new THREE.Mesh(new THREE.BoxGeometry(w, 3, d), wallMatMesh);
-      wall.position.set(x, 1.5, z);
-      wall.castShadow = wall.receiveShadow = true;
-      scene.add(wall);
-      const body = new CANNON.Body({ mass: 0, material: groundMat });
-      body.addShape(new CANNON.Box(new CANNON.Vec3(w / 2, 1.5, d / 2)));
-      body.position.set(x, 1.5, z);
-      world.addBody(body);
-    }
-
-    // ---------- vehicle ----------
-    const CHASSIS = { w: 1.9, h: 0.6, l: 4 };
-    const chassisBody = new CANNON.Body({ mass: 160, material: groundMat });
-    chassisBody.addShape(new CANNON.Box(new CANNON.Vec3(CHASSIS.w / 2, CHASSIS.h / 2, CHASSIS.l / 2)));
-    chassisBody.position.set(0, 2, 8);
-    chassisBody.angularDamping = 0.4;
-    chassisBody.allowSleep = false;
-
-    const vehicle = new CANNON.RaycastVehicle({
-      chassisBody, indexRightAxis: 0, indexUpAxis: 1, indexForwardAxis: 2
-    });
-
-    const WHEEL_RADIUS = 0.5;
-    const wheelOptions = {
-      radius: WHEEL_RADIUS,
-      directionLocal: new CANNON.Vec3(0, -1, 0),
-      suspensionStiffness: 34,
-      suspensionRestLength: 0.35,
-      frictionSlip: 3.5,
-      dampingRelaxation: 2.4,
-      dampingCompression: 4.4,
-      maxSuspensionForce: 100000,
-      rollInfluence: 0.02,
-      axleLocal: new CANNON.Vec3(-1, 0, 0),
-      maxSuspensionTravel: 0.3,
-      customSlidingRotationalSpeed: -30,
-      useCustomSlidingRotationalSpeed: true
-    };
-    for (const [x, z] of [[-0.95, 1.45], [0.95, 1.45], [-0.95, -1.45], [0.95, -1.45]]) {
-      vehicle.addWheel({ ...wheelOptions, chassisConnectionPointLocal: new CANNON.Vec3(x, -0.1, z) });
-    }
-    vehicle.addToWorld(world);
-
-    // car visuals
-    const car = new THREE.Group();
-    const bodyMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(CHASSIS.w, CHASSIS.h, CHASSIS.l),
-      new THREE.MeshStandardMaterial({ color: 0xff6b6b, roughness: 0.35, metalness: 0.4 })
-    );
-    bodyMesh.castShadow = true;
-    car.add(bodyMesh);
-    const cabin = new THREE.Mesh(
-      new THREE.BoxGeometry(CHASSIS.w * 0.82, 0.55, CHASSIS.l * 0.45),
-      new THREE.MeshStandardMaterial({ color: 0x1a202c, roughness: 0.2, metalness: 0.6 })
-    );
-    cabin.position.set(0, 0.55, -0.2);
-    cabin.castShadow = true;
-    car.add(cabin);
-    scene.add(car);
-
-    const wheelGeo = new THREE.CylinderGeometry(WHEEL_RADIUS, WHEEL_RADIUS, 0.34, 20);
-    wheelGeo.rotateZ(Math.PI / 2);
-    const wheelMatMesh = new THREE.MeshStandardMaterial({ color: 0x11141c, roughness: 0.8 });
-    const wheelMeshes = vehicle.wheelInfos.map(() => {
-      const m = new THREE.Mesh(wheelGeo, wheelMatMesh);
-      m.castShadow = true;
-      scene.add(m);
-      return m;
-    });
-
-    // ---------- props to knock over ----------
-    const boxGeo = new THREE.BoxGeometry(1, 1, 1);
-    const propColors = [0x9333ea, 0x6366f1, 0xff8e53, 0x38b2ac, 0xf6ad55];
-    const props = [];
-    function addBox(x, y, z, size, color) {
-      const mesh = new THREE.Mesh(boxGeo, new THREE.MeshStandardMaterial({ color, roughness: 0.5, metalness: 0.15 }));
-      mesh.scale.set(size, size, size);
-      mesh.castShadow = mesh.receiveShadow = true;
-      scene.add(mesh);
-      const body = new CANNON.Body({
-        mass: size * 6,
-        shape: new CANNON.Box(new CANNON.Vec3(size / 2, size / 2, size / 2)),
-        material: groundMat
+      document.getElementById('loader').classList.add('hidden');
+    } else {
+      import('./js/main.js').catch(err => {
+        console.error(err);
+        document.body.classList.add('fallback');
+        document.getElementById('loader').classList.add('hidden');
       });
-      body.position.set(x, y, z);
-      body.allowSleep = true;
-      body.sleepSpeedLimit = 0.4;
-      body.sleepTimeLimit = 0.6;
-      world.addBody(body);
-      props.push({ mesh, body });
     }
-    // scattered cubes
-    for (let i = 0; i < 40; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const r = 14 + Math.random() * 34;
-      const size = 0.8 + Math.random() * 1.2;
-      addBox(Math.cos(a) * r, size / 2 + 0.1, Math.sin(a) * r, size, propColors[i % propColors.length]);
-    }
-    // a stack to smash
-    const STACK_SIZE = 1.1, STACK_GAP = 1.25;
-    for (let level = 0; level < 5; level++) {
-      for (let i = 0; i <= level; i++) {
-        addBox(
-          -6 + (i - level / 2) * STACK_GAP,
-          (4 - level) * STACK_GAP + STACK_SIZE / 2,
-          -8,
-          STACK_SIZE,
-          propColors[level % propColors.length]
-        );
-      }
-    }
-
-    // ---------- zones ----------
-    function labelTexture(text, color) {
-      const c = document.createElement('canvas');
-      c.width = 512; c.height = 128;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = 'rgba(0,0,0,0)';
-      ctx.fillRect(0, 0, c.width, c.height);
-      ctx.font = 'bold 68px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = '#' + color.toString(16).padStart(6, '0');
-      ctx.fillText(text, c.width / 2, c.height / 2);
-      const tex = new THREE.CanvasTexture(c);
-      tex.anisotropy = 4;
-      return tex;
-    }
-
-    const zoneObjects = ZONES.map(zone => {
-      const [x, , z] = zone.position;
-      const group = new THREE.Group();
-      group.position.set(x, 0, z);
-
-      const ring = new THREE.Mesh(
-        new THREE.RingGeometry(4.2, 5, 48),
-        new THREE.MeshBasicMaterial({ color: zone.color, transparent: true, opacity: 0.55, side: THREE.DoubleSide })
-      );
-      ring.rotation.x = -Math.PI / 2;
-      ring.position.y = 0.05;
-      group.add(ring);
-
-      const pillar = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.9, 1.1, 5, 24),
-        new THREE.MeshStandardMaterial({ color: zone.color, roughness: 0.3, metalness: 0.5, emissive: zone.color, emissiveIntensity: 0.18 })
-      );
-      pillar.position.y = 2.5;
-      pillar.castShadow = true;
-      group.add(pillar);
-
-      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: labelTexture(zone.label, 0xffffff), transparent: true }));
-      sprite.scale.set(8, 2, 1);
-      sprite.position.y = 7;
-      group.add(sprite);
-
-      const light = new THREE.PointLight(zone.color, 30, 22);
-      light.position.y = 5;
-      group.add(light);
-
-      scene.add(group);
-
-      const pillarBody = new CANNON.Body({ mass: 0, material: groundMat });
-      pillarBody.addShape(new CANNON.Cylinder(0.9, 1.1, 5, 12));
-      pillarBody.position.set(x, 2.5, z);
-      world.addBody(pillarBody);
-
-      return { ...zone, group, ring, pillar };
-    });
-
-    let activeZone = null;
-    function setPanel(zone) {
-      if (zone === activeZone) return;
-      activeZone = zone;
-      if (!zone) { panelEl.classList.remove('visible'); return; }
-      panelEl.innerHTML = zone.html;
-      panelEl.classList.add('visible');
-    }
-
-    // ---------- controls ----------
-    const keys = { forward: false, back: false, left: false, right: false, brake: false };
-    const KEY_MAP = {
-      KeyW: 'forward', ArrowUp: 'forward',
-      KeyS: 'back', ArrowDown: 'back',
-      KeyA: 'left', ArrowLeft: 'left',
-      KeyD: 'right', ArrowRight: 'right',
-      Space: 'brake'
-    };
-    addEventListener('keydown', e => {
-      if (e.code === 'KeyR') return resetCar();
-      const k = KEY_MAP[e.code];
-      if (k) { keys[k] = true; e.preventDefault(); }
-    });
-    addEventListener('keyup', e => {
-      const k = KEY_MAP[e.code];
-      if (k) { keys[k] = false; e.preventDefault(); }
-    });
-
-    document.querySelectorAll('#touch button').forEach(btn => {
-      const k = btn.dataset.key;
-      const on = e => { e.preventDefault(); keys[k] = true; };
-      const off = e => { e.preventDefault(); keys[k] = false; };
-      btn.addEventListener('pointerdown', on);
-      btn.addEventListener('pointerup', off);
-      btn.addEventListener('pointerleave', off);
-      btn.addEventListener('pointercancel', off);
-    });
-
-    function resetCar() {
-      chassisBody.position.set(0, 2.5, 8);
-      chassisBody.velocity.setZero();
-      chassisBody.angularVelocity.setZero();
-      chassisBody.quaternion.set(0, 0, 0, 1);
-    }
-
-    const MAX_FORCE = 750;
-    const MAX_SPEED = 22;
-    const MAX_STEER = 0.5;
-    let steer = 0;
-
-    function applyControls(dt) {
-      const target = (keys.left ? -MAX_STEER : 0) + (keys.right ? MAX_STEER : 0);
-      steer += (target - steer) * Math.min(1, dt * 8);
-      vehicle.setSteeringValue(steer, 0);
-      vehicle.setSteeringValue(steer, 1);
-
-      // +engineForce drives the car along its -z (nose) direction
-      const speed = chassisBody.velocity.length();
-      const throttled = speed < MAX_SPEED;
-      const force = !throttled ? 0 : keys.forward ? MAX_FORCE : keys.back ? -MAX_FORCE * 0.6 : 0;
-      for (let i = 0; i < 4; i++) vehicle.applyEngineForce(force, i);
-
-      const coasting = !keys.forward && !keys.back;
-      const brake = keys.brake ? 40 : coasting ? 6 : 0;
-      for (let i = 0; i < 4; i++) vehicle.setBrake(brake, i);
-    }
-
-    // ---------- loop ----------
-    const camTarget = new THREE.Vector3();
-    const camPos = new THREE.Vector3(0, 12, 20);
-    const desired = new THREE.Vector3();
-    const offset = new THREE.Vector3(0, 5.5, 11);
-    const clock = new THREE.Clock();
-
-    function syncMesh(mesh, body) {
-      mesh.position.copy(body.position);
-      mesh.quaternion.copy(body.quaternion);
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
-      const dt = Math.min(clock.getDelta(), 1 / 30);
-
-      applyControls(dt);
-      world.step(1 / 60, dt, 3);
-
-      syncMesh(car, chassisBody);
-      for (let i = 0; i < wheelMeshes.length; i++) {
-        vehicle.updateWheelTransform(i);
-        syncMesh(wheelMeshes[i], vehicle.wheelInfos[i].worldTransform);
-      }
-      for (const p of props) syncMesh(p.mesh, p.body);
-
-      // respawn if the car falls out of the world
-      if (chassisBody.position.y < -8) resetCar();
-
-      // camera follow
-      desired.copy(offset).applyQuaternion(car.quaternion).add(car.position);
-      desired.y = Math.max(desired.y, car.position.y + 3);
-      camPos.lerp(desired, Math.min(1, dt * 3.2));
-      camera.position.copy(camPos);
-      camTarget.lerp(car.position, Math.min(1, dt * 6));
-      camera.lookAt(camTarget.x, camTarget.y + 1.2, camTarget.z);
-
-      // zone proximity
-      const t = clock.elapsedTime;
-      let near = null;
-      for (const zone of zoneObjects) {
-        const dist = Math.hypot(car.position.x - zone.group.position.x, car.position.z - zone.group.position.z);
-        const inside = dist < 6.5;
-        if (inside && (!near || dist < near.dist)) near = { zone, dist };
-        const scale = inside ? 1.12 : 1;
-        zone.ring.scale.lerp(new THREE.Vector3(scale, scale, scale), Math.min(1, dt * 6));
-        zone.ring.material.opacity = inside ? 0.9 : 0.45 + Math.sin(t * 2) * 0.1;
-        zone.pillar.rotation.y += dt * (inside ? 1.6 : 0.4);
-      }
-      setPanel(near ? near.zone : null);
-
-      renderer.render(scene, camera);
-    }
-
-    addEventListener('resize', () => {
-      camera.aspect = innerWidth / innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(innerWidth, innerHeight);
-    });
-
-    animate();
-    requestAnimationFrame(() => {
-      loaderEl.classList.add('hidden');
-      hudEl.classList.add('visible');
-      setTimeout(() => loaderEl.remove(), 800);
-    });
   </script>
 </body>
 </html>
