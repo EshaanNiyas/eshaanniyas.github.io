@@ -289,6 +289,7 @@ em { font-style: italic; }
   max-width: 58ch;
   margin-left: auto;
 }
+.about-body p + p { margin-top: 1.4em; }
 
 /* ---------- Featured Projects ---------- */
 .project-list { list-style: none; }
