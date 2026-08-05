@@ -44,7 +44,7 @@ export const LAKES = [
 
 // A ravine that the ring road crosses on a bridge.
 export const RAVINE = { a: [6, -172], b: [66, -68], width: 12, depth: 13 };
-export const BRIDGES = [{ x: 44, z: -104, span: 40 }];
+const BRIDGE_SPAN = 40;
 
 const smooth = t => t * t * (3 - 2 * t);
 
@@ -95,6 +95,43 @@ export function nearestRoad(x, z) {
     }
   }
   return best;
+}
+
+// Where the road network actually crosses the ravine — the deck is centred on
+// that point rather than on a hand-guessed coordinate.
+function roadRavineCrossings() {
+  const found = [];
+  for (const path of ROADS) {
+    for (let i = 0; i < path.length - 1; i++) {
+      const [ax, az] = path[i];
+      const [bx, bz] = path[i + 1];
+      const length = Math.hypot(bx - ax, bz - az);
+      const steps = Math.max(2, Math.round(length));
+      let best = null;
+      for (let s = 0; s <= steps; s++) {
+        const t = s / steps;
+        const x = ax + (bx - ax) * t;
+        const z = az + (bz - az) * t;
+        const gap = distanceToSegment(x, z, RAVINE.a[0], RAVINE.a[1], RAVINE.b[0], RAVINE.b[1]).dist;
+        if (!best || gap < best.gap) best = { x, z, gap };
+      }
+      if (best && best.gap < RAVINE.width) {
+        found.push({
+          x: best.x, z: best.z, gap: best.gap,
+          dx: (bx - ax) / length, dz: (bz - az) / length
+        });
+      }
+    }
+  }
+
+  // adjacent segments can both register the same crossing: keep the closest one
+  found.sort((a, b) => a.gap - b.gap);
+  const decks = [];
+  for (const crossing of found) {
+    if (decks.some(deck => Math.hypot(deck.x - crossing.x, deck.z - crossing.z) < BRIDGE_SPAN)) continue;
+    decks.push(crossing);
+  }
+  return decks;
 }
 
 export function waterLevelAt(lake) {
@@ -317,12 +354,13 @@ export function buildTerrain({ scene, world, groundMaterial, quality }) {
   const deckMat = new THREE.MeshStandardMaterial({ color: 0x2c3140, roughness: 0.6, metalness: 0.45, envMapIntensity: 1.1 });
   const railMat = new THREE.MeshStandardMaterial({ color: 0xc6d2e6, roughness: 0.35, metalness: 0.7, envMapIntensity: 1.6 });
 
-  for (const bridge of BRIDGES) {
-    const road = nearestRoad(bridge.x, bridge.z);
+  for (const crossing of roadRavineCrossings()) {
+    const bridge = { ...crossing, span: BRIDGE_SPAN };
+    const road = { cx: bridge.x, cz: bridge.z };
     const deckY = heightOnRoad(road.cx, road.cz);
-    // align the deck with the road, sampled a few metres either side
-    const ahead = nearestRoad(bridge.x + 6, bridge.z + 6);
-    const behind = nearestRoad(bridge.x - 6, bridge.z - 6);
+    // align the deck with the road, sampled a few metres along the centreline
+    const ahead = { cx: bridge.x + bridge.dx * 6, cz: bridge.z + bridge.dz * 6 };
+    const behind = { cx: bridge.x - bridge.dx * 6, cz: bridge.z - bridge.dz * 6 };
     const angle = Math.atan2(-(ahead.cz - behind.cz), ahead.cx - behind.cx);
 
     const group = new THREE.Group();

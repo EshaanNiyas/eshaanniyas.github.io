@@ -451,7 +451,7 @@ ui.minimap.addEventListener('pointermove', event => {
   const my = ((event.clientY - rect.top) / rect.height) * MAP_SIZE;
 
   let closest = null;
-  let best = 16;
+  let best = 34;
   for (const place of places) {
     const distance = Math.hypot(toMap(place.position[0]) - mx, toMap(place.position[1]) - my);
     if (distance < best) { best = distance; closest = place; }
