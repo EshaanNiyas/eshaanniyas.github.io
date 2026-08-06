@@ -3,280 +3,402 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eshaan Niyas</title>
-  <link href__="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; color: #1a202c; }
+  <title>Eshaan Niyas — Building technology that creates real-world impact</title>
+  <meta name="description" content="Eshaan Niyas — student engineer, AI builder and entrepreneur building technology that creates real-world impact." />
+  <meta name="theme-color" content="#05060a" />
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; width: 100%; z-index: 50;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 20px 40px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      transition: all 0.5s ease;
-    }
-    nav.scrolled {
-      background: rgba(255,255,255,0.95);
-      border-bottom: 1px solid #f0f0f0;
-      padding: 16px 40px;
-    }
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; font-weight: 600;
-      color: white; text-decoration: none;
-      transition: color 0.3s;
-    }
-    nav.scrolled .nav-logo { color: #1a202c; }
-    .nav-links { display: flex; gap: 40px; list-style: none; }
-    .nav-links a {
-      font-size: 0.875rem; font-weight: 500;
-      color: rgba(255,255,255,0.8); text-decoration: none;
-      position: relative; transition: color 0.3s;
-      letter-spacing: 0.05em;
-    }
-    nav.scrolled .nav-links a { color: #4a5568; }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -6px; left: 0;
-      width: 0; height: 2px;
-      background: linear-gradient(90deg, #6366f1, #9333ea);
-      border-radius: 99px; transition: width 0.3s;
-    }
-    .nav-links a:hover::after { width: 100%; }
-    .nav-links a:hover { color: white; }
-    nav.scrolled .nav-links a:hover { color: #1a202c; }
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Eshaan Niyas" />
+  <meta property="og:description" content="Building technology that creates real-world impact." />
 
-    /* HERO */
-    #home {
-      height: 85vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; position: relative;
-      color: white; padding: 0 24px;
-      background-image: url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/699eea620341d0937d209338/a3551f55d_image.png');
-      background-size: cover;
-      background-position: center 20%;
-      background-repeat: no-repeat;
-    }
-    .hero-overlay {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.5);
-    }
-    .hero-content { position: relative; z-index: 10; max-width: 700px; }
-    .hero-content h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 8vw, 5rem);
-      font-weight: 700; line-height: 1;
-      margin-bottom: 24px; color: white;
-      animation: fadeUp 0.8s ease forwards; opacity: 0;
-    }
-    .hero-content p {
-      font-size: clamp(1rem, 2.5vw, 1.4rem);
-      font-weight: 300; margin-bottom: 40px;
-      color: rgba(255,255,255,0.9); letter-spacing: 0.05em;
-      animation: fadeUp 0.8s 0.2s ease forwards; opacity: 0;
-    }
-    .hero-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 16px 36px; border-radius: 999px;
-      font-weight: 600; font-size: 1rem;
-      color: white; text-decoration: none;
-      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-      box-shadow: 0 8px 32px rgba(255,107,107,0.3);
-      transition: all 0.3s ease;
-      animation: fadeUp 0.8s 0.4s ease forwards; opacity: 0;
-    }
-    .hero-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(255,107,107,0.4);
-      background: linear-gradient(135deg, #ff5252, #ff7043);
-    }
-    .scroll-down {
-      position: absolute; bottom: 40px; left: 50%;
-      transform: translateX(-50%);
-      background: none; border: none; cursor: pointer;
-      color: rgba(255,255,255,0.7);
-      animation: bounce 2s infinite;
-      z-index: 10;
-    }
-    .scroll-down svg { width: 32px; height: 32px; }
-
-    /* ABOUT */
-    #about {
-      min-height: 100vh; display: flex;
-      align-items: center; justify-content: center;
-      padding: 96px 24px;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    }
-    .about-inner { max-width: 700px; text-align: center; }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
-      font-weight: 600; color: #1a202c;
-      position: relative; display: inline-block;
-      margin-bottom: 48px;
-    }
-    .section-title::after {
-      content: ''; position: absolute;
-      bottom: -16px; left: 50%; transform: translateX(-50%);
-      width: 80px; height: 4px;
-      background: linear-gradient(90deg, #6366f1, #9333ea);
-      border-radius: 99px;
-    }
-    .about-text { font-size: 1.1rem; color: #4a5568; line-height: 1.9; }
-    .about-text p { margin-bottom: 24px; }
-    .about-text strong { color: #1a202c; font-weight: 600; }
-
-    /* SOCIAL LINKS */
-    .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 48px; }
-    .social-link {
-      width: 56px; height: 56px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: white; text-decoration: none;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      box-shadow: 0 8px 32px rgba(102,126,234,0.25);
-      transition: all 0.3s ease;
-    }
-    .social-link:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(102,126,234,0.35);
-      background: linear-gradient(135deg, #5a67d8, #6b46c1);
-    }
-    .social-link svg { width: 24px; height: 24px; }
-
-    /* FOOTER */
-    #contact {
-      padding: 64px 24px; text-align: center;
-      background: linear-gradient(135deg, #2d3748, #1a202c);
-    }
-    #contact p { color: #e2e8f0; margin-bottom: 12px; font-size: 1.1rem; font-weight: 600; }
-    #contact a { color: #63b3ed; text-decoration: none; transition: color 0.3s; }
-    #contact a:hover { color: #90cdf4; }
-    .footer-copy { margin-top: 40px; color: #718096; font-size: 0.85rem; }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-      40% { transform: translateX(-50%) translateY(-12px); }
-      60% { transform: translateX(-50%) translateY(-6px); }
-    }
-    .fade-in-section {
-      opacity: 0; transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .fade-in-section.visible { opacity: 1; transform: translateY(0); }
-
-    /* RESPONSIVE */
-    @media (max-width: 640px) {
-      nav { padding: 16px 20px; }
-      nav.scrolled { padding: 12px 20px; }
-      .nav-links { gap: 20px; }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="assets/img/eshaan-portrait.jpg" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <meta property="og:image" content="assets/img/eshaan-portrait.jpg" />
 </head>
 <body>
 
-  <!-- NAVIGATION -->
-  <nav id="navbar">
-    <a href__="#home" class="nav-logo">eshaanniyas</a>
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="nav-brand" href="#top">Eshaan Niyas <span>— portfolio</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
     <ul class="nav-links">
-      <li><a href__="#home">Home</a></li>
-      <li><a href__="#about">About</a></li>
-      <li><a href__="#contact">Contact</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Projects</a></li>
+      <li><a href="#journey">Achievements</a></li>
+      <li><a href="#playground">Playground</a></li>
+      <li><a href="#beyond">Beyond</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
-  <section id="home">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>Eshaan Niyas</h1>
-      <p>Academic Scholar &amp; Young Innovator</p>
-      <a href__="mailto:niyaseshaan@gmail.com" class="hero-btn">Let's Connect</a>
-    </div>
-    <button class="scroll-down" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
-    </button>
-  </section>
+  <header class="hero" id="top">
+    <div class="hero-ambient" aria-hidden="true"></div>
+    <canvas id="hero-canvas"></canvas>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="about-inner fade-in-section">
-      <h2 class="section-title">About Me</h2>
-      <div class="about-text">
-        <p>
-          <strong>An academic scholar and young innovator at Arcadia British School,</strong>
-          I thrive on challenges that test both mind and body — from representing
-          my school at ADISSA sports events to placing in STEM competitions and
-          winning entrepreneurial challenges.
-        </p>
-        <p>
-          I believe in balancing academics with real-world impact — seen in my
-          volunteering, coaching roles, and published writing. Every experience
-          shapes my journey of growth, leadership, and curiosity.
-        </p>
-        <p>
-          My passion lies in <strong>innovation, leadership, and making meaningful contributions</strong>
-          to my community while pursuing academic excellence.
-        </p>
+    <div class="hero-grid">
+      <div class="hero-inner">
+        <div class="rise"><span class="eyebrow">Academic scholar &amp; young innovator</span></div>
+        <h1 class="display">
+          <span class="line rise"><span style="--delay:80ms">Eshaan</span></span>
+          <span class="line rise"><span style="--delay:180ms">Niyas</span></span>
+        </h1>
+        <div class="rise">
+          <p class="hero-tagline" style="--delay:300ms">Building technology that creates real-world impact.</p>
+        </div>
+        <div class="rise">
+          <div class="hero-actions" style="--delay:400ms">
+            <a class="btn" href="#work">Explore My Work <span class="arrow">→</span></a>
+            <a class="btn btn-ghost" href="#playground">Enter the playground</a>
+          </div>
+        </div>
+        <div class="rise">
+          <dl class="hero-facts" style="--delay:520ms">
+            <div><dt>Harvard Crimson Global Essay</dt><dd>Winner — MENA &amp; Africa</dd></div>
+            <div><dt>TKS Dubai</dt><dd>Selected, 2026–2027</dd></div>
+            <div><dt>HundrED</dt><dd>Youth Ambassador</dd></div>
+          </dl>
+        </div>
       </div>
 
-      <div class="social-links">
-        <!-- LinkedIn -->
-        <a href__="https://www.linkedin.com/in/eshaanniyas" target="_blank" class="social-link" title="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-            <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
-          </svg>
-        </a>
-        <!-- Email -->
-        <a href__="mailto:niyaseshaan@gmail.com" class="social-link" title="Email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-        </a>
-        <!-- Medium -->
-        <a href__="https://medium.com/@niyaseshaan" target="_blank" class="social-link" title="Medium">
-          <svg viewBox="0 0 24 24" fill="currentColor" style="width:24px;height:24px;">
-            <path d="M5.79,3.37A6.47,6.47,0,0,0,3.32,3.24L3.25,3.22C1.61,3.46,1,4.48,1,6.13V17.87c0,1.65.61,2.67,2.25,2.91l.07,0a6.47,6.47,0,0,0,2.47-.13l.05,0c1-.26,1.48-1,1.48-2.3V6.67C7.27,5.4,6.76,4.64,5.84,4.35l-.05,0ZM16.33,3.22c-2.45,0-3.32.93-3.32,3.37V17.41c0,2.45.87,3.37,3.32,3.37s3.32-.93,3.32-3.37V6.59C19.65,4.15,18.78,3.22,16.33,3.22ZM23,5.15c0-1.09-.2-1.78-1.53-1.78s-1.53.69-1.53,1.78v13.7c0,1.09.2,1.78,1.53,1.78s1.53-.69,1.53-1.78V5.15Z"/>
-          </svg>
-        </a>
+      <figure class="hero-portrait rise" style="--delay:240ms">
+        <div class="portrait-frame">
+          <img src="assets/img/eshaan-portrait.jpg"
+               srcset="assets/img/eshaan-portrait-sm.jpg 450w, assets/img/eshaan-portrait.jpg 900w"
+               sizes="(max-width: 900px) 90vw, 38vw"
+               width="900" height="1255" alt="Eshaan Niyas speaking on stage" />
+          <span class="portrait-veil" aria-hidden="true"></span>
+          <span class="portrait-sheen" aria-hidden="true"></span>
+        </div>
+        <figcaption>On stage, mid-pitch</figcaption>
+      </figure>
+    </div>
+
+    <div class="hero-hint" aria-hidden="true">
+      <span>Scroll</span>
+      <span class="track"></span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">About</span>
+          <h2 class="display section-title">This person builds things.</h2>
+          <p class="lede">Eshaan Niyas is a student engineer and innovator exploring technology, AI, entrepreneurship, and solutions for real-world problems.</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-copy reveal">
+            <p>
+              I'm a student at <strong>Arcadia British School</strong> in Dubai, and most of what I do
+              starts the same way: something in the world seems fixable, so I try to fix it — in code,
+              in hardware, or in a pitch.
+            </p>
+            <p>
+              That has taken me from the <strong>Pepsi Youth Hackathon</strong> and the
+              <strong>Tortoise Tank</strong> innovation competition to the
+              <strong>IITM Pravartak entrepreneurship program</strong>, the
+              <strong>NYU Abu Dhabi Astronomy Camp</strong>, and a place in
+              <strong>The Knowledge Society (TKS) Dubai 2026–2027</strong>.
+            </p>
+            <p>
+              I also write. Winning the <strong>Harvard Crimson Global Essay Competition</strong> for MENA &amp; Africa,
+              the <strong>Lumiere Scholars Essay Award 2025</strong> and the
+              <strong>HUSKO Asia Student Essay Competition 2026</strong> taught me the same lesson the workshop does:
+              an idea only counts once someone else can follow it.
+            </p>
+          </div>
+          <div class="pillars">
+            <div class="pillar reveal" style="--delay:0ms">
+              <span class="dot"></span>
+              <div><h3>AI &amp; software</h3><p>Building with code — from AI experiments to tools people can actually open and use.</p></div>
+            </div>
+            <div class="pillar reveal" style="--delay:80ms">
+              <span class="dot"></span>
+              <div><h3>Engineering &amp; sustainability</h3><p>Hands-on projects aimed at real environmental problems, not just demos.</p></div>
+            </div>
+            <div class="pillar reveal" style="--delay:160ms">
+              <span class="dot"></span>
+              <div><h3>Entrepreneurship</h3><p>TKS Dubai, IITM Pravartak and pitch competitions — turning ideas into something defensible.</p></div>
+            </div>
+            <div class="pillar reveal" style="--delay:240ms">
+              <span class="dot"></span>
+              <div><h3>Writing &amp; advocacy</h3><p>Award-winning essays, a published short story, and youth ambassadorship with HundrED.</p></div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CONTACT / FOOTER -->
-  <footer id="contact">
-    <div style="max-width:700px;margin:0 auto;">
-      <p>Let's connect</p>
-      <p style="font-weight:400;color:#cbd5e0;">Email: <a href__="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com</a></p>
-      <p class="footer-copy">© 2025 Eshaan Niyas. Crafted with passion for innovation.</p>
-    </div>
-  </footer>
+    <hr class="rule" />
 
-  <script>
-    // Scrolled nav style
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
+    <!-- WORK -->
+    <section id="work">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">Work</span>
+          <h2 class="display section-title">What I'm building.</h2>
+          <p class="lede">Four threads I keep pulling on — software, hardware, the web, and competitions that force an idea to stand on its own.</p>
+        </div>
 
-    // Fade-in on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+        <div class="projects">
+          <article class="project is-wide reveal">
+            <span class="project-glow" style="background:#6366f1"></span>
+            <span class="index">01</span>
+            <span class="tag">AI &amp; software development</span>
+            <h3>AI and software projects</h3>
+            <p>
+              Where most of my building time goes: writing software and experimenting with AI to solve
+              problems I've actually run into, then getting it in front of people to find out what I got wrong.
+            </p>
+          </article>
+
+          <article class="project reveal" style="--delay:80ms">
+            <span class="project-glow" style="background:#22d3ee"></span>
+            <span class="index">02</span>
+            <span class="tag">Engineering &amp; sustainability</span>
+            <h3>Engineering &amp; sustainability projects</h3>
+            <p>
+              Hands-on engineering aimed at environmental problems — the same instinct behind my work as a
+              Yalla Returns sustainability ambassador.
+            </p>
+          </article>
+
+          <article class="project reveal" style="--delay:160ms">
+            <span class="project-glow" style="background:#a855f7"></span>
+            <span class="index">03</span>
+            <span class="tag">Web development</span>
+            <h3>Website development &amp; coding</h3>
+            <p>
+              Front-end and interactive work — including this site and its Three.js playground,
+              built and shipped end to end.
+            </p>
+            <div class="stack"><span>Three.js</span><span>JavaScript</span><span>Interaction design</span></div>
+          </article>
+
+          <article class="project is-wide reveal" style="--delay:80ms">
+            <span class="project-glow" style="background:#f97316"></span>
+            <span class="index">04</span>
+            <span class="tag">Innovation competitions</span>
+            <h3>Competition projects</h3>
+            <p>
+              Ideas built under pressure: a winning idea at the <strong>Tortoise Tank</strong> innovation competition
+              and a build at the <strong>Pepsi Youth Hackathon</strong>. Short deadlines, real judges, no room to hide
+              behind a slide deck.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- JOURNEY -->
+    <section id="journey">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">Journey</span>
+          <h2 class="display section-title">Milestones, not a résumé.</h2>
+          <p class="lede">Recognition, programs and the rooms that changed what I thought I was capable of.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="milestone reveal">
+            <span class="year">Winner · MENA &amp; Africa</span>
+            <h3>Harvard Crimson Global Essay Competition</h3>
+            <p>Regional winner for MENA &amp; Africa.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">2025</span>
+            <h3>Lumiere Scholars Essay Award</h3>
+            <p>Essay Award recipient.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">2026</span>
+            <h3>HUSKO Asia Student Essay Competition</h3>
+            <p>Top winner.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">2026–2027</span>
+            <h3>The Knowledge Society (TKS) Dubai</h3>
+            <p>Selected participant.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">Ambassador</span>
+            <h3>HundrED Youth Ambassador</h3>
+            <p>Selected as a youth ambassador.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">Entrepreneurship</span>
+            <h3>IITM Pravartak Entrepreneurship Program</h3>
+            <p>Completed the program.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">Innovation</span>
+            <h3>Tortoise Tank Innovation Competition</h3>
+            <p>Winning idea.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">Hackathon</span>
+            <h3>Pepsi Youth Hackathon</h3>
+            <p>Participant.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">Selected</span>
+            <h3>NYU Abu Dhabi Astronomy Camp</h3>
+            <p>Selected participant.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">Sustainability</span>
+            <h3>Yalla Returns Ambassador</h3>
+            <p>Involved in the sustainability initiative.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">Published</span>
+            <h3>Short story in Emarat Beats</h3>
+            <p>Published short story.</p>
+          </div>
+          <div class="milestone reveal">
+            <span class="year">Mathematics</span>
+            <h3>Math Olympiad</h3>
+            <p>Olympiad participation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYGROUND -->
+    <section id="playground" class="playground">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">Interactive</span>
+          <h2 class="display section-title">Drive through the whole story.</h2>
+          <p class="lede">Everything above, rebuilt as a place. Take the car, follow the roads, and each landmark you reach opens the work behind it.</p>
+        </div>
+
+        <div class="stage reveal" id="stage">
+          <div class="stage-poster">
+            <span class="stage-glow" aria-hidden="true"></span>
+            <div class="stage-copy">
+              <h3>The Build World</h3>
+              <p>A drivable valley with eight landmarks — awards, the lab, the pavilion, the amphitheatre, the green field, the observatory and the grounds.</p>
+              <div class="stage-actions">
+                <button class="btn" id="launch-play">Launch the experience <span class="arrow">→</span></button>
+                <a class="btn btn-ghost" href="play/" target="_blank" rel="noopener">Open in a new tab</a>
+              </div>
+              <ul class="stage-keys">
+                <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive</li>
+                <li><kbd>Space</kbd> handbrake</li>
+                <li><kbd>C</kbd> camera</li>
+                <li><kbd>M</kbd> sound</li>
+              </ul>
+            </div>
+          </div>
+          <button class="stage-close" id="close-play" hidden aria-label="Close the playground">Close ✕</button>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- LEADERSHIP -->
+    <section id="beyond">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="eyebrow">Leadership &amp; sport</span>
+          <h2 class="display section-title">Off the workbench.</h2>
+          <p class="lede">Committee rooms, student council and inter-school competition — where the ideas get argued with and the discipline comes from.</p>
+        </div>
+        <div class="pillars" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="pillar reveal" style="--delay:0ms">
+            <span class="dot"></span>
+            <div><h3>Model United Nations</h3><p>UNHCR committee, delegate for Mexico.</p></div>
+          </div>
+          <div class="pillar reveal" style="--delay:80ms">
+            <span class="dot"></span>
+            <div><h3>Student Council</h3><p>Representing students at school level.</p></div>
+          </div>
+          <div class="pillar reveal" style="--delay:160ms">
+            <span class="dot"></span>
+            <div><h3>ADISSA · BSME · DASSA</h3><p>Inter-school competition across all three circuits.</p></div>
+          </div>
+          <div class="pillar reveal" style="--delay:240ms">
+            <span class="dot"></span>
+            <div><h3>Rugby · Football · Basketball</h3><p>Competing and achieving across three team sports.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <div class="shell">
+        <div class="contact-card reveal">
+          <span class="eyebrow" style="justify-content:center">Contact</span>
+          <h2 class="display">Let's build something<br />worth remembering.</h2>
+          <p>Working on something ambitious, or want a second pair of hands on a prototype? I'd like to hear about it.</p>
+          <div class="contact-actions">
+            <a class="btn" href="mailto:niyaseshaan@gmail.com">niyaseshaan@gmail.com <span class="arrow">→</span></a>
+            <a class="btn btn-ghost" href="#playground">Play with the 3D world</a>
+          </div>
+          <div class="socials">
+            <a href="https://www.linkedin.com/in/eshaanniyas" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />
+              </svg>
+            </a>
+            <a href="mailto:niyaseshaan@gmail.com" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" /><polyline points="22,6 12,13 2,6" />
+              </svg>
+            </a>
+            <a href="https://medium.com/@niyaseshaan" target="_blank" rel="noopener" aria-label="Medium">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.85 6.4a.72.72 0 0 0-.24-.6L.83 3.66V3.34h5.5l4.26 9.32 3.74-9.32H19.6v.32l-1.52 1.46a.44.44 0 0 0-.17.43v10.9a.44.44 0 0 0 .17.43l1.48 1.46v.32h-7.46v-.32l1.54-1.5c.15-.15.15-.2.15-.43V6.6L9.5 17.62h-.58L4.93 6.6v7.39c-.04.3.06.6.27.82l2 2.42v.32H1.5v-.32l2-2.42c.21-.22.3-.53.25-.82V6.4Z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <footer>
+          <span>© 2025 Eshaan Niyas</span>
+          <span>Built with Three.js — <a href="play/" style="color:var(--muted)">try the playground</a></span>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+  </script>
+  <script type="module">
+    import './assets/js/main.js';
+
+    const canvas = document.getElementById('hero-canvas');
+    const supportsWebGL = (() => {
+      try {
+        const test = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && (test.getContext('webgl') || test.getContext('experimental-webgl')));
+      } catch (err) { return false; }
+    })();
+
+    if (supportsWebGL) {
+      import('./assets/js/hero.js')
+        .then(({ initHero }) => initHero(canvas))
+        .catch(() => canvas.remove());
+    } else {
+      canvas.remove();
+    }
   </script>
 </body>
 </html>
