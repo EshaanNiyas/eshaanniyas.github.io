@@ -375,6 +375,32 @@ em { font-style: italic; }
   font-weight: 500;
 }
 
+/* ---------- Beyond the Classroom ---------- */
+.beyond-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: clamp(24px, 4vw, 56px);
+  row-gap: clamp(28px, 3.5vw, 44px);
+}
+.beyond-item {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.beyond-name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.beyond-note {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  letter-spacing: 0.01em;
+}
+
 /* ---------- Experience ---------- */
 .timeline { list-style: none; }
 .tl {
@@ -531,7 +557,7 @@ em { font-style: italic; }
 @media (max-width: 860px) {
   .nav-links { display: none; }
   .about-body { margin-left: 0; }
-  .ach-grid { grid-template-columns: repeat(2, 1fr); }
+  .beyond-grid { grid-template-columns: repeat(2, 1fr); }
   .tl { grid-template-columns: 1fr; gap: 12px; }
 }
 
@@ -553,6 +579,7 @@ em { font-style: italic; }
   .honor-index { display: none; }
   .honor-note { text-align: left; white-space: normal; }
   .honor:hover { padding-left: 8px; }
+  .beyond-grid { grid-template-columns: 1fr; }
 }
 
 /* ---------- Motion / a11y preferences ---------- */

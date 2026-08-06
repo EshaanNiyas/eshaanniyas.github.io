@@ -25,7 +25,7 @@
     revealEls.forEach((el) => el.classList.add("is-visible"));
   } else {
     // Stagger items that belong to the same group.
-    const groupSelectors = [".project", ".honor", ".tl"];
+    const groupSelectors = [".project", ".honor", ".beyond-item", ".tl"];
     groupSelectors.forEach((sel) => {
       document.querySelectorAll(sel + ".reveal").forEach((el, i) => {
         el.style.setProperty("--d", Math.min(i * 0.07, 0.42) + "s");
