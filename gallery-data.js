@@ -73,12 +73,12 @@ window.GALLERIES = {
   "special-olympics": {
     "label": "Special Olympics",
     "images": [],
-    "desc": "Represented school in the Special Olympics Unified Champion Schools Programme and participated in environmental volunteering initiatives such as The NYU Great Nurdle Hunt, promoting inclusion and sustainability."
+    "desc": "Represented school in the Special Olympics Unified Champion Schools Programme."
   },
   "nurdle": {
     "label": "The Great Nurdle Hunt",
     "images": [],
-    "desc": "Represented school in the Special Olympics Unified Champion Schools Programme and participated in environmental volunteering initiatives such as The NYU Great Nurdle Hunt, promoting inclusion and sustainability."
+    "desc": "Participated in environmental volunteering initiatives - The NYU Great Nurdle Hunt, promoting inclusion and sustainability."
   },
   "mubadala-open": {
     "label": "Mubadala Abu Dhabi Open",
