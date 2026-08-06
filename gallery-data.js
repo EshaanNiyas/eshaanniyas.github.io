@@ -9,7 +9,8 @@ window.GALLERIES = {
   },
   "tortoise-built": {
     "label": "Tortoise Tank Innovation Project",
-    "images": []
+    "images": [],
+    "desc": "Winner of the inaugural school-wide Tortoise Tank Competition, proposing an innovative business concept and selected to support the implementation of a student-led Incubation Hub."
   },
   "writing": {
     "label": "Published Writing",
