@@ -707,6 +707,35 @@ body.lb-open {
   font-variant-numeric: tabular-nums;
 }
 
+.lb-desc {
+  margin: 0;
+  max-width: 60ch;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  line-height: 1.7;
+  text-align: center;
+}
+
+.lb-desc[hidden] { display: none; }
+
+.lb-img[hidden] { display: none; }
+
+.lightbox.lb-textonly .lb-stage {
+  max-width: min(680px, 100%);
+  gap: 22px;
+}
+
+.lightbox.lb-textonly .lb-caption #lbTitle {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.gallery-text .beyond-name::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cline x1='12' y1='11' x2='12' y2='16'/%3E%3Cline x1='12' y1='8' x2='12.01' y2='8'/%3E%3C/svg%3E");
+}
+
 .lb-close,
 .lb-nav {
   position: fixed;

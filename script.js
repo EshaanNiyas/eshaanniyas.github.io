@@ -53,6 +53,7 @@
     const lbImg = document.getElementById("lbImg");
     const lbTitle = document.getElementById("lbTitle");
     const lbCount = document.getElementById("lbCount");
+    const lbDesc = document.getElementById("lbDesc");
     const btnClose = document.getElementById("lbClose");
     const btnPrev = document.getElementById("lbPrev");
     const btnNext = document.getElementById("lbNext");
@@ -73,12 +74,24 @@
 
     const open = (slug) => {
       const g = galleries[slug];
-      if (!g || !g.images || !g.images.length) return;
-      current = g.images;
+      if (!g) return;
+      current = g.images || [];
       index = 0;
       lbTitle.textContent = g.label || "";
       lbImg.alt = g.label || "Photo";
-      render();
+      lbDesc.textContent = g.desc || "";
+      lbDesc.hidden = !g.desc;
+      const hasImages = current.length > 0;
+      lbImg.hidden = !hasImages;
+      if (hasImages) {
+        render();
+      } else {
+        lbCount.textContent = "";
+        btnPrev.hidden = true;
+        btnNext.hidden = true;
+        lbImg.removeAttribute("src");
+      }
+      lb.classList.toggle("lb-textonly", !hasImages);
       lastFocus = document.activeElement;
       lb.hidden = false;
       document.body.classList.add("lb-open");
@@ -101,12 +114,17 @@
     // Mark clickable items and bind
     Object.keys(galleries).forEach((slug) => {
       const g = galleries[slug];
-      if (!g.images || !g.images.length) return;
+      if ((!g.images || !g.images.length) && !g.desc) return;
+      const hasImages = g.images && g.images.length;
       document.querySelectorAll('[data-gallery="' + slug + '"]').forEach((el) => {
         el.classList.add("has-gallery");
+        if (!hasImages) el.classList.add("gallery-text");
         el.setAttribute("tabindex", "0");
         el.setAttribute("role", "button");
-        el.setAttribute("aria-label", "View photos of " + (g.label || slug));
+        el.setAttribute(
+          "aria-label",
+          (hasImages ? "View photos of " : "View details of ") + (g.label || slug)
+        );
         el.addEventListener("click", () => open(slug));
         el.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") {

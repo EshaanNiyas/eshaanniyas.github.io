@@ -39,13 +39,15 @@ window.GALLERIES = {
       "assets/gallery/harvard/01.jpg",
       "assets/gallery/harvard/02.jpg",
       "assets/gallery/harvard/03.jpg"
-    ]
+    ],
+    "desc": "Global Winner in the Harvard Crimson Essay Competition, ranking in the top 0.09% among over 10,000 participants worldwide — demonstrating exceptional critical thinking and academic writing."
   },
   "tortoise-win": {
     "label": "Tortoise Tank Competition",
     "images": [
       "assets/gallery/tortoise-win/01.jpg"
-    ]
+    ],
+    "desc": "Winner of the inaugural school-wide Tortoise Tank Competition, proposing an innovative business concept and selected to support the implementation of a student-led Incubation Hub."
   },
   "great-debate": {
     "label": "The Great Debate",
@@ -60,7 +62,8 @@ window.GALLERIES = {
     "images": [
       "assets/gallery/lumiere/01.jpg",
       "assets/gallery/lumiere/02.jpg"
-    ]
+    ],
+    "desc": "Won the 2025 Lumiere Scholars Essay Award, receiving a USD 750 scholarship and a place on the honors list — selected from over 2,000 entries across 111 countries."
   },
   "immerse": {
     "label": "Immerse Education Essay Competition",
@@ -91,7 +94,8 @@ window.GALLERIES = {
       "assets/gallery/tks/02.jpg",
       "assets/gallery/tks/03.jpg",
       "assets/gallery/tks/04.jpg"
-    ]
+    ],
+    "desc": "Accepted into the TKS (The Knowledge Society) Dubai programme (2026–2027), a highly selective global initiative focused on emerging technologies, entrepreneurship, and solving global problems."
   },
   "astronomy": {
     "label": "NYU Abu Dhabi Astronomy Camp",
@@ -99,7 +103,8 @@ window.GALLERIES = {
       "assets/gallery/astronomy/01.jpg",
       "assets/gallery/astronomy/02.jpg",
       "assets/gallery/astronomy/03.jpg"
-    ]
+    ],
+    "desc": "Selected for the NYU Abu Dhabi Astronomy Camp in collaboration with the Center for Astrophysics and Space Science, engaging with university-level concepts including exoplanets, stellar evolution, and astrophysics research."
   },
   "pepsi": {
     "label": "Pepsi Youth Hackathon",
@@ -108,7 +113,8 @@ window.GALLERIES = {
       "assets/gallery/pepsi/02.jpg",
       "assets/gallery/pepsi/03.jpg",
       "assets/gallery/pepsi/04.jpg"
-    ]
+    ],
+    "desc": "Competed in the Pepsi Youth Hackathon, applying innovation and teamwork to develop solutions to real-world challenges under pressure."
   },
   "mun": {
     "label": "MUN (Model United Nations)",
@@ -130,7 +136,8 @@ window.GALLERIES = {
     "label": "Special Olympics",
     "images": [
       "assets/gallery/special-olympics/01.jpg"
-    ]
+    ],
+    "desc": "Represented my school in the Special Olympics Unified Champion Schools Programme, promoting inclusion."
   },
   "nurdle": {
     "label": "The Great Nurdle Hunt",
@@ -138,7 +145,8 @@ window.GALLERIES = {
       "assets/gallery/nurdle/01.jpg",
       "assets/gallery/nurdle/02.jpg",
       "assets/gallery/nurdle/03.jpg"
-    ]
+    ],
+    "desc": "Took part in environmental volunteering initiatives such as The Great Nurdle Hunt, promoting sustainability."
   },
   "mubadala-open": {
     "label": "Mubadala Abu Dhabi Open",
@@ -172,5 +180,15 @@ window.GALLERIES = {
       "assets/gallery/football-u13/07.jpg",
       "assets/gallery/football-u13/08.jpg"
     ]
+  },
+  "academic-scholar": {
+    "label": "Academic Scholar",
+    "images": [],
+    "desc": "Awarded Academic Scholar at Arcadia British School, and previously a Ghaf Academic Scholar from Year 7 — reflecting sustained high academic achievement."
+  },
+  "hundred": {
+    "label": "HundrED Youth Ambassador",
+    "images": [],
+    "desc": "Selected as a Youth Ambassador with the HundrED network, driving youth-led change in collaboration with organisations like the International Baccalaureate and Festival of Hope."
   }
 };
