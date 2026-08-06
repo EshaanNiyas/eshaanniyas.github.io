@@ -4,25 +4,23 @@ window.GALLERIES = {
     "images": [
       "assets/gallery/sustainability/01.jpg",
       "assets/gallery/sustainability/02.jpg",
-      "assets/gallery/sustainability/03.jpg",
-      "assets/gallery/sustainability/04.jpg",
-      "assets/gallery/sustainability/05.jpg",
-      "assets/gallery/sustainability/06.jpg",
-      "assets/gallery/sustainability/07.jpg",
-      "assets/gallery/sustainability/08.jpg"
+      "assets/gallery/sustainability/03.jpg"
     ]
   },
   "engineering": {
     "label": "Engineering Challenge",
     "images": [
       "assets/gallery/engineering/01.jpg",
-      "assets/gallery/engineering/02.jpg"
+      "assets/gallery/engineering/02.jpg",
+      "assets/gallery/engineering/03.jpg"
     ]
   },
   "tortoise-built": {
     "label": "Tortoise Tank Innovation Project",
     "images": [
-      "assets/gallery/tortoise-built/01.jpg"
+      "assets/gallery/tortoise-built/01.jpg",
+      "assets/gallery/tortoise-built/02.jpg",
+      "assets/gallery/tortoise-built/03.jpg"
     ]
   },
   "writing": {
@@ -45,7 +43,9 @@ window.GALLERIES = {
   "tortoise-win": {
     "label": "Tortoise Tank Competition",
     "images": [
-      "assets/gallery/tortoise-win/01.jpg"
+      "assets/gallery/tortoise-win/01.jpg",
+      "assets/gallery/tortoise-win/02.jpg",
+      "assets/gallery/tortoise-win/03.jpg"
     ],
     "desc": "Winner of the inaugural school-wide Tortoise Tank Competition, proposing an innovative business concept and selected to support the implementation of a student-led Incubation Hub."
   },
@@ -75,7 +75,8 @@ window.GALLERIES = {
     "label": "Academic Excellence Award",
     "images": [
       "assets/gallery/academic-excellence/01.jpg",
-      "assets/gallery/academic-excellence/02.jpg"
+      "assets/gallery/academic-excellence/02.jpg",
+      "assets/gallery/academic-excellence/03.jpg"
     ]
   },
   "basketball-u15": {
@@ -83,8 +84,7 @@ window.GALLERIES = {
     "images": [
       "assets/gallery/basketball-u15/01.jpg",
       "assets/gallery/basketball-u15/02.jpg",
-      "assets/gallery/basketball-u15/03.jpg",
-      "assets/gallery/basketball-u15/04.jpg"
+      "assets/gallery/basketball-u15/03.jpg"
     ]
   },
   "tks": {
@@ -92,8 +92,7 @@ window.GALLERIES = {
     "images": [
       "assets/gallery/tks/01.jpg",
       "assets/gallery/tks/02.jpg",
-      "assets/gallery/tks/03.jpg",
-      "assets/gallery/tks/04.jpg"
+      "assets/gallery/tks/03.jpg"
     ],
     "desc": "Accepted into the TKS (The Knowledge Society) Dubai programme (2026–2027), a highly selective global initiative focused on emerging technologies, entrepreneurship, and solving global problems."
   },
@@ -111,8 +110,7 @@ window.GALLERIES = {
     "images": [
       "assets/gallery/pepsi/01.jpg",
       "assets/gallery/pepsi/02.jpg",
-      "assets/gallery/pepsi/03.jpg",
-      "assets/gallery/pepsi/04.jpg"
+      "assets/gallery/pepsi/03.jpg"
     ],
     "desc": "Competed in the Pepsi Youth Hackathon, applying innovation and teamwork to develop solutions to real-world challenges under pressure."
   },
@@ -135,7 +133,9 @@ window.GALLERIES = {
   "special-olympics": {
     "label": "Special Olympics",
     "images": [
-      "assets/gallery/special-olympics/01.jpg"
+      "assets/gallery/special-olympics/01.jpg",
+      "assets/gallery/special-olympics/02.jpg",
+      "assets/gallery/special-olympics/03.jpg"
     ],
     "desc": "Represented my school in the Special Olympics Unified Champion Schools Programme, promoting inclusion."
   },
@@ -153,8 +153,7 @@ window.GALLERIES = {
     "images": [
       "assets/gallery/mubadala-open/01.jpg",
       "assets/gallery/mubadala-open/02.jpg",
-      "assets/gallery/mubadala-open/03.jpg",
-      "assets/gallery/mubadala-open/04.jpg"
+      "assets/gallery/mubadala-open/03.jpg"
     ]
   },
   "rugby-u14": {
@@ -173,18 +172,25 @@ window.GALLERIES = {
     "images": [
       "assets/gallery/football-u13/01.jpg",
       "assets/gallery/football-u13/02.jpg",
-      "assets/gallery/football-u13/03.jpg",
-      "assets/gallery/football-u13/04.jpg",
-      "assets/gallery/football-u13/05.jpg",
-      "assets/gallery/football-u13/06.jpg",
-      "assets/gallery/football-u13/07.jpg",
-      "assets/gallery/football-u13/08.jpg"
+      "assets/gallery/football-u13/03.jpg"
     ]
   },
   "academic-scholar": {
     "label": "Academic Scholar",
-    "images": [],
+    "images": [
+      "assets/gallery/academic-scholar/01.jpg",
+      "assets/gallery/academic-scholar/02.jpg",
+      "assets/gallery/academic-scholar/03.jpg"
+    ],
     "desc": "Awarded Academic Scholar at Arcadia British School, and previously a Ghaf Academic Scholar from Year 7 — reflecting sustained high academic achievement."
+  },
+  "u11": {
+    "label": "ADISSA U11 Teams",
+    "images": [
+      "assets/gallery/u11/01.jpg",
+      "assets/gallery/u11/02.jpg",
+      "assets/gallery/u11/03.jpg"
+    ]
   },
   "hundred": {
     "label": "HundrED Youth Ambassador",
