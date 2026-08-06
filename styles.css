@@ -334,46 +334,45 @@ em { font-style: italic; }
   text-align: right;
 }
 
-/* ---------- Achievements ---------- */
+/* ---------- Achievements (curated honors list) ---------- */
 .achievements { background: var(--gray-50); border-block: 1px solid var(--line); }
-.ach-grid {
+.honors { list-style: none; }
+.honor {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  overflow: hidden;
+  grid-template-columns: 48px 1fr auto;
+  align-items: baseline;
+  gap: 20px 32px;
+  padding: 28px 8px;
+  border-top: 1px solid var(--line);
+  transition: padding-left 0.4s var(--ease);
 }
-.ach {
-  background: var(--white);
-  padding: clamp(28px, 3.4vw, 44px);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: background 0.35s var(--ease);
+.honors .honor:last-child { border-bottom: 1px solid var(--line); }
+.honor:hover { padding-left: 16px; }
+.honor-index {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--gray-300);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
 }
-.ach:hover { background: var(--gray-50); }
-.ach-metric {
+.honor-title {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
   color: var(--ink);
 }
-.ach-title {
-  font-size: 1.02rem;
-  font-weight: 550;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  line-height: 1.3;
-}
-.ach-desc {
-  font-size: 0.94rem;
-  line-height: 1.6;
+.honor-note {
+  font-size: 0.85rem;
   color: var(--gray-500);
-  margin-top: auto;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-align: right;
+}
+.honor-status {
+  color: var(--ink);
+  font-weight: 500;
 }
 
 /* ---------- Experience ---------- */
@@ -536,9 +535,16 @@ em { font-style: italic; }
   .project-index { display: none; }
   .project-tag { text-align: left; }
   .project:hover { padding-left: 8px; }
-  .ach-grid { grid-template-columns: 1fr; }
   .nav-cta { display: none; }
   .contact-links { grid-template-columns: 1fr; }
+  .honor {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-block: 24px;
+  }
+  .honor-index { display: none; }
+  .honor-note { text-align: left; white-space: normal; }
+  .honor:hover { padding-left: 8px; }
 }
 
 /* ---------- Motion / a11y preferences ---------- */
