@@ -602,3 +602,195 @@ em { font-style: italic; }
 .contact :focus-visible, .footer :focus-visible, .nav :focus-visible {
   outline-color: currentColor;
 }
+
+/* ---- Photo galleries ---- */
+.has-gallery {
+  cursor: pointer;
+}
+
+.project.has-gallery .project-title,
+.tl.has-gallery .tl-role h3,
+.honor.has-gallery .honor-title,
+.beyond-item.has-gallery .beyond-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.has-gallery .project-title::after,
+.has-gallery .tl-role h3::after,
+.has-gallery .honor-title::after,
+.has-gallery .beyond-name::after {
+  content: "+";
+  flex: none;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-family: var(--sans, "Inter", sans-serif);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #9a9aa0;
+  opacity: 0.85;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease),
+    border-color 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+
+.has-gallery:hover .project-title::after,
+.has-gallery:focus-visible .project-title::after,
+.has-gallery:hover .tl-role h3::after,
+.has-gallery:focus-visible .tl-role h3::after,
+.has-gallery:hover .honor-title::after,
+.has-gallery:focus-visible .honor-title::after,
+.has-gallery:hover .beyond-name::after,
+.has-gallery:focus-visible .beyond-name::after {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+  opacity: 1;
+}
+
+body.lb-open {
+  overflow: hidden;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 5vw, 64px);
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: lb-fade 0.3s var(--ease);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+@keyframes lb-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lb-stage {
+  margin: 0;
+  max-width: min(1000px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.lb-img {
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  background: #111;
+}
+
+.lb-caption {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lb-caption #lbCount {
+  color: rgba(255, 255, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-desc {
+  margin: 0;
+  max-width: 60ch;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  line-height: 1.7;
+  text-align: center;
+}
+
+.lb-desc[hidden] { display: none; }
+
+.lb-img[hidden] { display: none; }
+
+.lightbox.lb-textonly .lb-stage {
+  max-width: min(680px, 100%);
+  gap: 22px;
+}
+
+.lightbox.lb-textonly .lb-caption #lbTitle {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+
+
+.lb-close,
+.lb-nav {
+  position: fixed;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
+  line-height: 1;
+}
+
+.lb-close:hover,
+.lb-nav:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.lb-close {
+  top: clamp(16px, 3vw, 28px);
+  right: clamp(16px, 3vw, 28px);
+  width: 44px;
+  height: 44px;
+  font-size: 1.7rem;
+}
+
+.lb-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  font-size: 1.8rem;
+}
+
+.lb-prev { left: clamp(12px, 2.5vw, 32px); }
+.lb-next { right: clamp(12px, 2.5vw, 32px); }
+
+.lb-nav[hidden] { display: none; }
+
+@media (max-width: 560px) {
+  .lb-nav { width: 44px; height: 44px; }
+  .lb-img { max-height: 68vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox { animation: none; }
+}
