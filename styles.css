@@ -438,40 +438,49 @@ em { font-style: italic; }
 }
 .contact-email:hover { border-color: var(--white); opacity: 0.85; }
 
-/* Structured links */
-.contact-links {
-  margin-top: 64px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  max-width: 720px;
-  margin-inline: auto;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  overflow: hidden;
-}
-.contact-links > * {
+/* Social icon buttons */
+.contact-socials {
+  margin-top: 56px;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 26px 20px;
-  background: var(--ink);
-  text-align: center;
-  transition: background 0.3s var(--ease);
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
-.contact-links a:hover { background: #151517; }
-.cl-label {
-  font-size: 0.72rem;
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px 12px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  color: var(--white);
+  background: transparent;
+  transition: background 0.3s var(--ease), border-color 0.3s var(--ease),
+    color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.social-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.social-name {
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.social-btn:hover {
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+.contact-loc {
+  margin-top: 40px;
+  font-size: 0.78rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--gray-500);
 }
-.cl-handle {
-  font-size: 0.98rem;
-  color: var(--white);
-}
-.contact-loc .cl-handle { color: var(--gray-300); }
 
 /* ---------- Footer ---------- */
 .footer {
@@ -536,7 +545,6 @@ em { font-style: italic; }
   .project-tag { text-align: left; }
   .project:hover { padding-left: 8px; }
   .nav-cta { display: none; }
-  .contact-links { grid-template-columns: 1fr; }
   .honor {
     grid-template-columns: 1fr;
     gap: 8px;
