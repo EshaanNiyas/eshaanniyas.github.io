@@ -46,6 +46,91 @@
     revealEls.forEach((el) => io.observe(el));
   }
 
+  /* ---- Photo galleries (lightbox) ---- */
+  const galleries = window.GALLERIES || {};
+  const lb = document.getElementById("lightbox");
+  if (lb) {
+    const lbImg = document.getElementById("lbImg");
+    const lbTitle = document.getElementById("lbTitle");
+    const lbCount = document.getElementById("lbCount");
+    const btnClose = document.getElementById("lbClose");
+    const btnPrev = document.getElementById("lbPrev");
+    const btnNext = document.getElementById("lbNext");
+
+    let current = [];
+    let index = 0;
+    let lastFocus = null;
+
+    const render = () => {
+      const src = current[index];
+      if (!src) return;
+      lbImg.src = src;
+      lbCount.textContent = current.length > 1 ? index + 1 + " / " + current.length : "";
+      const single = current.length < 2;
+      btnPrev.hidden = single;
+      btnNext.hidden = single;
+    };
+
+    const open = (slug) => {
+      const g = galleries[slug];
+      if (!g || !g.images || !g.images.length) return;
+      current = g.images;
+      index = 0;
+      lbTitle.textContent = g.label || "";
+      lbImg.alt = g.label || "Photo";
+      render();
+      lastFocus = document.activeElement;
+      lb.hidden = false;
+      document.body.classList.add("lb-open");
+      btnClose.focus();
+    };
+
+    const close = () => {
+      lb.hidden = true;
+      document.body.classList.remove("lb-open");
+      lbImg.removeAttribute("src");
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+
+    const step = (dir) => {
+      if (current.length < 2) return;
+      index = (index + dir + current.length) % current.length;
+      render();
+    };
+
+    // Mark clickable items and bind
+    Object.keys(galleries).forEach((slug) => {
+      const g = galleries[slug];
+      if (!g.images || !g.images.length) return;
+      document.querySelectorAll('[data-gallery="' + slug + '"]').forEach((el) => {
+        el.classList.add("has-gallery");
+        el.setAttribute("tabindex", "0");
+        el.setAttribute("role", "button");
+        el.setAttribute("aria-label", "View photos of " + (g.label || slug));
+        el.addEventListener("click", () => open(slug));
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            open(slug);
+          }
+        });
+      });
+    });
+
+    btnClose.addEventListener("click", close);
+    btnPrev.addEventListener("click", () => step(-1));
+    btnNext.addEventListener("click", () => step(1));
+    lb.addEventListener("click", (e) => {
+      if (e.target === lb) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (lb.hidden) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
+    });
+  }
+
   /* ---- Subtle hero parallax ---- */
   const parallax = document.getElementById("heroParallax");
   if (parallax && !prefersReduced) {
